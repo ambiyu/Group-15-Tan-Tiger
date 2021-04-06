@@ -1,11 +1,11 @@
-import logo from './logo.svg';
 import './App.css';
+import YoutubePlayer from './YoutubePlayer';
 
 function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
+        <YoutubePlayer videoURL="dQw4w9WgXcQ"/>
         <p>
           Edit <code>src/App.js</code> and save to reload.
         </p>
