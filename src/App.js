@@ -1,11 +1,21 @@
 import './App.css';
+import React from 'react';
 import YoutubePlayer from './YoutubePlayer';
+export const YoutubeContext = React.createContext(undefined);
 
 function App() {
+
+  const [videoURL, setVideoURL] = React.useState("dQw4w9WgXcQ");
+  const [timestamp, setTimestamp] = React.useState(0);
+
   return (
     <div className="App">
       <header className="App-header">
-        <YoutubePlayer videoURL="dQw4w9WgXcQ"/>
+        <YoutubeContext.Provider value={{videoURL, timestamp}}>
+          <YoutubePlayer videoURL={videoURL} timestamp={timestamp}/>
+        </YoutubeContext.Provider>
+
+        <button onClick={() => setVideoURL("LWcsWDKeNUw")}>Set timestamp</button>
         <p>
           Edit <code>src/App.js</code> and save to reload.
         </p>
