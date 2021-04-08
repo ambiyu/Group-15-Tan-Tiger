@@ -1,0 +1,15 @@
+.roomPage {
+  height: 100%;
+}
+
+.playlistPanel {
+  width: 25%;
+}
+
+.middlePanel {
+  width: 50%;
+}
+
+.chatPanel {
+  width: 25%;
+}
