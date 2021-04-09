@@ -11,11 +11,12 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <YoutubeContext.Provider value={{videoURL, timestamp}}>
-          <YoutubePlayer videoURL={videoURL} timestamp={timestamp}/>
+        <YoutubeContext.Provider value={{videoURL, setVideoURL, timestamp, setTimestamp}}>
+          <YoutubePlayer/>
         </YoutubeContext.Provider>
 
-        <button onClick={() => setVideoURL("LWcsWDKeNUw")}>Set timestamp</button>
+        <button onClick={() => setVideoURL("LWcsWDKeNUw")}>Set video</button>
+        <button onClick={() => setTimestamp(100)}>Set timestamp</button>
         <p>
           Edit <code>src/App.js</code> and save to reload.
         </p>
