@@ -15,3 +15,5 @@ class Room {
         this.users.push(user)
     }
 }
+
+module.exports = Room;
