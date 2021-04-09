@@ -14,8 +14,8 @@ const io = require('socket.io')(server);
 
 app.get('/', (req, resp) => {
     // As a way to send an initial html file.
-    // resp.sendFile(__dirname + '/index.html');)
-    resp.send('Hello world, server is running');
+    resp.sendFile(__dirname + '/index.html');
+    // resp.send('Hello world, server is running');
 });
 
 io.on('connection', (socket) => {
