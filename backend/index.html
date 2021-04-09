@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Backend Test events</title>
+  </head>
+  <body>
+    <form id="createNewRoom" action="">
+      <input id="input" autocomplete="off" /><button>Create New Room</button>
+    </form>
+    <form id="joinExistingRoom" action="">
+      <input id='roomIDInput' autocomplete="off" />  <input id='userNameInput' autocomplete="off" /><button>Join Existing Room</button>
+    </form>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+      var socket = io(); // This will load th socket.io-client, exposes an io global (and the endpoing GET /socket.io/socket.io.js)
+      // and then connect. Can use a clocal version of the client side JS file in node_modules/socket.io/client-dist/socket.io.js
+      // Dont specify url when calling io(), defaults to trying to connect to the host that serves the page.
+
+      var form = document.getElementById('form');
+      var input = document.getElementById('input');
+
+      // Test to see if a user can create a new room and be added to it
+      createNewRoom.addEventListener('submit', function(e) {
+          e.preventDefault();
+          if (input.value){
+              socket.emit('createRoom', input.value);
+              input.value = '';
+          }
+      });
+
+      // Test to see if user can join an existing room with a room code given
+      joinExistingRoom.addEventListener('submit', function(e) {
+          e.preventDefault();
+          if (roomIDInput.value){
+              socket.emit('joinRoom', {roomID: roomIDInput.value, userName: userNameInput.value});
+              roomIDInput.value = '';
+              userNameInput.value = '';
+          }
+      });
+    </script>
+  </body>
+</html>
