@@ -4,9 +4,10 @@ function handleCreateRoom(io, socket, roomManager) {
     // Note, passing in just a single string atm, can be refactored to object/JSON, like a DTO object
     socket.on('createRoom', (userName) => {
         const user = new User(userName);
-        roomManager.createNewRoom(user);
+        const roomCode = roomManager.createNewRoom(user);
         console.log("Created new room with user in it")
         console.log(roomManager.roomDict);
+        socket.emit("enterRoom", roomCode);
     });
 }
 

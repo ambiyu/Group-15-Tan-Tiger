@@ -14,6 +14,7 @@ class RoomManager {
         const room = new Room(roomID);
         this.roomDict[roomID] = room;
         room.addUser(user);
+        return roomID;
     }
 
     addUserToRoom(user, roomID) {

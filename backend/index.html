@@ -37,6 +37,11 @@
               userNameInput.value = '';
           }
       });
+
+      socket.on('enterRoom', function(roomCode) {
+          console.log(roomCode);
+      })
+
     </script>
   </body>
 </html>
