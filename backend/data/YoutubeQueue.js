@@ -4,7 +4,7 @@ const youtube = new YouTube(process.env.YOUTUBE_API_KEY, { cache: false })
 class YoutubeQueue {
     constructor() {
         this.queue = []; // Array of video URLs. Most recently added is at the end of the array. The first element is the currently playing video.
-        this.history = []; // Previously played videos. Most recently played is at the end of the array.
+        this.history = []; // Previously played videos. Most recently played is at the beginning of the array.
     }
 
     addToQueue(videoURL) {
@@ -19,7 +19,7 @@ class YoutubeQueue {
     }
     // Jumps back or forth in the queue.
     // Positive values bring a video in the queue to the front and start playing it. The currently playing video is pushed into history.
-    // Negative values bring a video from history back into the queue. The history is unchanged apart from the currently playing video being pushed into it.
+    // Negative values bring a video from history back into the queue. The history is unchanged apart from the currently playing video being unshifted into it.
     // 0 does nothing.
     // Returns the video to be played. Undefined means no changes should be made.
     jumpQueue(index) { 
@@ -29,9 +29,9 @@ class YoutubeQueue {
             return this.advanceQueue();
         }
         usingHistory = index < 0;
-        this.history.push(this.queue[0]);
+        this.history.unshift(this.queue[0]);
         if(usingHistory) {
-            index = -index-1;
+            index = -index; // Not subtracting one as the array has been shifted.
             if(this.history.length >= index) {
                 return undefined;
             }
@@ -52,7 +52,7 @@ class YoutubeQueue {
         if(oldVideo === undefined) {  // Returns undefined if the queue is empty.
             return undefined;
         }
-        this.history.push(oldVideo);
+        this.history.unshift(oldVideo);
         if(this.queue.length === 0) { // Returns undefined if the queue is now empty.
             return undefined;
         }
