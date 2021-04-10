@@ -25,7 +25,13 @@
       createNewRoom.addEventListener('submit', function(e) {
           e.preventDefault();
           if (input.value){
-              socket.emit('createRoom', input.value);
+              socket.emit('createRoom', input.value, ({roomCode}) => {
+                console.log(roomCode);
+                var item = document.createElement('li');
+                item.textContent = roomCode;
+                roomCodes.appendChild(item);
+                window.scrollTo(0, document.body.scrollHeight);
+              });
               input.value = '';
           }
       });

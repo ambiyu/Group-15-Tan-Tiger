@@ -2,7 +2,7 @@ const User = require("../data/User");
 
 function handleCreateRoom(io, socket, roomManager) {
     // Note, passing in just a single string atm, can be refactored to object/JSON, like a DTO object
-    socket.on('createRoom', (userName) => {
+    socket.on('createRoom', (userName, callback) => {
         const user = new User(userName);
         const roomCode = roomManager.createNewRoom(user);
         // For testing
@@ -12,7 +12,11 @@ function handleCreateRoom(io, socket, roomManager) {
         // Join this client socket to the a specific room. This prevent broadcasting to everyone.
         socket.join(String(roomCode));
 
-        io.to(String(roomCode)).emit('enterRoom', roomCode);
+        callback({
+            roomCode
+        })
+
+        //io.to(String(roomCode)).emit('enterRoom', roomCode);
     });
 }
 
