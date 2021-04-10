@@ -4,6 +4,7 @@
     <title>Backend Test events</title>
   </head>
   <body>
+    <ul id="roomCodesTest"></ul>
     <form id="createNewRoom" action="">
       <input id="input" autocomplete="off" /><button>Create New Room</button>
     </form>
@@ -16,6 +17,7 @@
       // and then connect. Can use a clocal version of the client side JS file in node_modules/socket.io/client-dist/socket.io.js
       // Dont specify url when calling io(), defaults to trying to connect to the host that serves the page.
 
+      var roomCodes = document.getElementById('roomCodesTest');
       var form = document.getElementById('form');
       var input = document.getElementById('input');
 
@@ -32,7 +34,7 @@
       joinExistingRoom.addEventListener('submit', function(e) {
           e.preventDefault();
           if (roomIDInput.value){
-              socket.emit('joinRoom', {roomID: roomIDInput.value, userName: userNameInput.value});
+              socket.emit('joinRoom', {roomCode: roomIDInput.value, userName: userNameInput.value});
               roomIDInput.value = '';
               userNameInput.value = '';
           }
@@ -40,7 +42,27 @@
 
       socket.on('enterRoom', function(roomCode) {
           console.log(roomCode);
-      })
+          var item = document.createElement('li');
+          item.textContent = roomCode;
+          roomCodes.appendChild(item);
+          window.scrollTo(0, document.body.scrollHeight);
+      });
+
+      socket.on('someInRoomEvent', function(msg) {
+        console.log(msg);
+        var item = document.createElement('li');
+        item.textContent = msg;
+        roomCodes.appendChild(item);
+        window.scrollTo(0, document.body.scrollHeight);
+      });
+
+      socket.on('testAll', function(msg) {
+        console.log(msg);
+        var item = document.createElement('li');
+        item.textContent = msg;
+        roomCodes.appendChild(item);
+        window.scrollTo(0, document.body.scrollHeight);
+      });
 
     </script>
   </body>
