@@ -3,6 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { AppBar, Toolbar, IconButton, Typography } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
 import RoomPage from './pages/RoomPage';
+import CreatePage from './pages/CreateRoom';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -45,6 +46,10 @@ export default function App() {
         <Switch>
           <Route path="/room">
             <RoomPage />
+          </Route>
+
+          <Route path="/create">
+            <CreatePage/>
           </Route>
 
           <Route path="*">
