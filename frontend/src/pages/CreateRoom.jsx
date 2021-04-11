@@ -8,17 +8,10 @@ import Checkbox from '@material-ui/core/Checkbox';
 import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import Tab from '@material-ui/core/Tab'
-import Tabs from '@material-ui/core/Tabs'
-import AppBar from '@material-ui/core/AppBar'
-import Create from '../components/Create'
-import Join from '../components/join'
-
 
 function CreatePage() {
   return (
@@ -56,13 +49,6 @@ const useStyles = makeStyles((theme) => ({
 export default function SignIn() {
   const classes = useStyles();
 
-  const [value, setValue] = React.useState(0);
-
-  const handleChange = (event, newValue)=> {
-    setValue(newValue);
-  }
-
-
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
@@ -70,16 +56,55 @@ export default function SignIn() {
         <Avatar className={classes.avatar}>
           <AddCircleOutlineIcon />
         </Avatar>
-        <AppBar position="static" >
-        <Tabs value={value} onChange={handleChange}>       
-        <Tab label="Create room" />
-        <Tab label="Join room" />
-        </Tabs >
-        </AppBar>
-        
-       {value==0 ? <Create/>: <Join/>}
-      
-        
+        <Typography component="h1" variant="h5">
+          Create Page
+        </Typography>
+        <form className={classes.form} noValidate>
+          <TextField
+            variant="outlined"
+            margin="normal"
+            required
+            fullWidth
+            id="room-name"
+            label="Room Name"
+            name="email"
+            autoFocus
+          />
+          <TextField
+            variant="outlined"
+            margin="normal"
+            required
+            fullWidth
+            name="user-name"
+            label="User Name"
+            id="user-name"
+          />
+          <FormControlLabel
+            control={<Checkbox value="remember" color="primary" />}
+            label="Remember me"
+          />
+          <Button
+            type="submit"
+            fullWidth
+            variant="contained"
+            color="primary"
+            className={classes.submit}
+          >
+            Create Room
+          </Button>
+          <Grid container>
+            <Grid item xs>
+              <Link href="#" variant="body2">
+                Forgot password?
+              </Link>
+            </Grid>
+            <Grid item>
+              <Link href="#" variant="body2">
+                {"Don't have an account? Sign Up"}
+              </Link>
+            </Grid>
+          </Grid>
+        </form>
       </div>
       <Box mt={8}>
         <CreatePage />
