@@ -5,6 +5,7 @@ const server = http.createServer(app);
 const port = process.env.PORT || 4000;
 
 const initEventHandlers = require('./events/RoomInitEvents');
+const inRoomHandlers = require('./events/inRoomEvents');
 
 const RoomManager = require('./data/RoomManager');
 // Handles storing information about all rooms - only in memory for now.
@@ -17,15 +18,15 @@ const io = require('socket.io')(server, {
 });
 
 app.get('/', (req, resp) => {
-    // As a way to send an initial html file.
+    // As a way to serve an initial html file for testing backend events.
     resp.sendFile(__dirname + '/index.html');
-    // resp.send('Hello world, server is running');
 });
 
 io.on('connection', (socket) => {
     console.log('A user has connected');
 
     initEventHandlers(io, socket, roomManager);
+    inRoomHandlers(io, socket, roomManager);
     
     // Handle when users disconnect from app
     socket.on('disconnect', () => {
