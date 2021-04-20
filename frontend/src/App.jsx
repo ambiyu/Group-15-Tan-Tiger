@@ -3,7 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { AppBar, Toolbar, IconButton, Typography } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
 import RoomPage from './pages/RoomPage';
-import CreatePage from './pages/CreateRoom';
+import CreateJoinRoomPage from './pages/CreateJoinRoomPage';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -48,8 +48,8 @@ export default function App() {
             <RoomPage />
           </Route>
 
-          <Route path="/create">
-            <CreatePage/>
+          <Route path="/">
+            <CreateJoinRoomPage />
           </Route>
 
           <Route path="*">
