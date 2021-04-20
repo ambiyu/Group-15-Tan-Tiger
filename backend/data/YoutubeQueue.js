@@ -59,14 +59,14 @@ class YoutubeQueue {
         return this.queue[0];
     }
 
-    getCurrentVideoObject() { // Returns the current video's info collected by the Youtube API.
+    async getCurrentVideoObject() { // Returns the current video's info collected by the Youtube API.
         if(this.queue.length === 0) {
             return undefined;
         }
         return await youtube.getVideo(this.queue[0]);
     }
 
-    getVideoObjectByIndex(index) { // Gets video information of a specific entry in the queue. Negative values check history.
+    async getVideoObjectByIndex(index) { // Gets video information of a specific entry in the queue. Negative values check history.
         list = index >= 0 ? this.queue : this.history;
         index = index >= 0 ? index : -index - 1; // Negative values need to be made positive and zero-based to properly interact with history array.
         if(list.length >= index) {
@@ -75,7 +75,7 @@ class YoutubeQueue {
         return await youtube.getVideo(list[index]);
     }
 
-    getVideoObjectByURL(videoURL) { // Gets video information of a specific URL.
+    async getVideoObjectByURL(videoURL) { // Gets video information of a specific URL.
         return await youtube.getVideo(videoURL);
     }
 }
