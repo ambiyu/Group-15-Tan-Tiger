@@ -1,30 +1,39 @@
-// Manages all rooms - a user can either join an existing room if they have the 
-// corresponding room code, or can make a new one. 
-const Room = require('../data/Room');
+// Manages all rooms - a user can either join an existing room if they have the
+// corresponding room code, or can make a new one.
+const Room = require("../data/Room");
 
 class RoomManager {
     constructor() {
         // Key as roomID, and value as the Room object.
-        this.roomDict = {}
+        this.roomDict = {};
     }
 
-    createNewRoom(user, roomName){
-        const roomID = this.generateRandID();
+    createNewRoom(user, roomName) {
+        const roomCode = this.generateRandID();
         // TODO: Ensure no duplicate ID before creating room.
-        const room = new Room(roomID, roomName);
-        this.roomDict[roomID] = room;
+        const room = new Room(roomCode, roomName);
+        this.roomDict[roomCode] = room;
         room.addUser(user);
-        return roomID;
+        return roomCode;
     }
 
-    addUserToRoom(user, roomID) {
-        const room = this.roomDict[String(roomID)];
+    addUserToRoom(user, roomCode) {
+        const room = this.roomDict[String(roomCode)];
         if (room) {
             room.addUser(user);
         } else {
-            console.log("Error: No room with that ID");
+            console.log("Error: No room with that code");
         }
-        // TODO: Error handling - returning that its invalid roomID given by client
+    }
+
+    getRoomByCode(roomCode) {
+        const room = this.roomDict[String(roomCode)];
+        if (room) {
+            return room;
+        } else {
+            console.log("Error: No room with that code");
+            return null;
+        }
     }
 
     generateRandID() {

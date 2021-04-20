@@ -1,0 +1,63 @@
+import { useEffect, useReducer } from 'react';
+import socket from '../Socket';
+
+const initialState = {
+  username: '',
+  roomCode: '',
+  roomName: '',
+  users: [],
+  currentlyPlaying: {
+    // video info
+  },
+  musicQueue: [], // change name to just queue?
+  chatMessages: [],
+};
+
+function reducer(state, action) {
+  switch (action.type) {
+    case 'enterRoom': {
+      const { username, room } = action;
+      return {
+        ...state,
+        username,
+        ...room,
+      };
+    }
+    case 'createRoom': {
+      const { user, roomCode, roomName } = action;
+      return {
+        ...state,
+        username: user.userName,
+        roomCode,
+        roomName,
+        users: [user],
+      };
+    }
+    case 'newUserJoined': {
+      return {
+        ...state,
+        users: [...state.users, action.newUser],
+      };
+    }
+    default:
+      throw new Error(`Invalid action type: ${action.type}`);
+  }
+}
+
+export default function useRoomState() {
+  const [state, dispatch] = useReducer(reducer, initialState);
+
+  useEffect(() => {
+    function onNewUserJoin(newUser) {
+      dispatch({ type: 'newUserJoined', newUser });
+    }
+
+    socket.on('newUserInRoom', onNewUserJoin);
+
+    return () => {
+      socket.removeListener('newUserJoin', onNewUserJoin);
+    };
+  }, []);
+
+  return [state, dispatch];
+}

@@ -14,18 +14,22 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Create() {
+export default function Join() {
   const classes = useStyles();
   const history = useHistory();
   const { dispatch } = useContext(RoomContext);
 
-  function handleCreate() {
-    const nickname = document.getElementById('username').value;
-    const roomName = document.getElementById('room-name').value;
+  function handleJoin() {
+    const username = document.getElementById('username').value;
+    const roomCode = document.getElementById('room-code').value;
 
-    socket.emit('createRoom', nickname, roomName, ({ user, roomCode }) => {
-      dispatch({ type: 'createRoom', user, roomCode, roomName });
-      history.push(`/room/${roomCode}`);
+    socket.emit('joinRoom', roomCode, username, (room) => {
+      if (room) {
+        dispatch({ type: 'enterRoom', username, room });
+        history.push(`/room/${roomCode}`);
+      } else {
+        window.alert('Invalid room code');
+      }
     });
   }
 
@@ -36,9 +40,9 @@ export default function Create() {
         margin="normal"
         required
         fullWidth
-        id="room-name"
-        label="Room Name"
-        name="room-name"
+        id="username"
+        label="Username"
+        name="username"
         autoFocus
       />
       <TextField
@@ -46,18 +50,18 @@ export default function Create() {
         margin="normal"
         required
         fullWidth
-        name="username"
-        label="Username"
-        id="username"
+        name="room-code"
+        label="Room Code"
+        id="room-code"
       />
       <Button
         fullWidth
         variant="contained"
         color="primary"
         className={classes.button}
-        onClick={handleCreate}
+        onClick={handleJoin}
       >
-        Create Room
+        Join Room
       </Button>
     </form>
   );
