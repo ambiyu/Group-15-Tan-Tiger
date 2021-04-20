@@ -8,10 +8,10 @@ class RoomManager {
         this.roomDict = {}
     }
 
-    createNewRoom(user){
+    createNewRoom(user, roomName){
         const roomID = this.generateRandID();
         // TODO: Ensure no duplicate ID before creating room.
-        const room = new Room(roomID);
+        const room = new Room(roomID, roomName);
         this.roomDict[roomID] = room;
         room.addUser(user);
         return roomID;

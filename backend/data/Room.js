@@ -2,7 +2,8 @@
 // share links to music/videos, and chat to one another.
 
 class Room {
-    constructor(roomID) {
+    constructor(roomName, roomID) {
+        this.roomName = roomName
         this.roomID = roomID;
         this.users = [];
         this.chatMessages = []; // Chat won't be used in initial prototypes, but will store for later.

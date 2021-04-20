@@ -6,10 +6,10 @@
   <body>
     <ul id="roomCodesTest"></ul>
     <form id="createNewRoom" action="">
-      <input id="input" autocomplete="off" /><button>Create New Room</button>
+      <input id="roomName" autocomplete="off" placeholder="Room name"/><input id="input" autocomplete="off" placeholder="Username"/><button>Create New Room</button>
     </form>
     <form id="joinExistingRoom" action="">
-      <input id='roomIDInput' autocomplete="off" />  <input id='userNameInput' autocomplete="off" /><button>Join Existing Room</button>
+      <input id='roomIDInput' autocomplete="off" placeholder="Existing room ID"/>  <input id='userNameInput' autocomplete="off" placeholder="Username"/><button>Join Existing Room</button>
     </form>
     <script src="/socket.io/socket.io.js"></script>
     <script>
@@ -25,7 +25,7 @@
       createNewRoom.addEventListener('submit', function(e) {
           e.preventDefault();
           if (input.value){
-              socket.emit('createRoom', input.value, ({roomCode}) => {
+              socket.emit('createRoom', input.value, roomName.value, ({roomCode}) => {
                 console.log(roomCode);
                 var item = document.createElement('li');
                 item.textContent = roomCode;
@@ -40,9 +40,12 @@
       joinExistingRoom.addEventListener('submit', function(e) {
           e.preventDefault();
           if (roomIDInput.value){
-              socket.emit('joinRoom', {roomCode: roomIDInput.value, userName: userNameInput.value});
-              roomIDInput.value = '';
-              userNameInput.value = '';
+            // Can send as JSON like this: socket.emit('joinRoom', {roomCode: roomIDInput.value, userName: userNameInput.value});
+            // Or as separate params, server side just has 2 arguments it receives
+            socket.emit('joinRoom', roomIDInput.value, userNameInput.value);
+            //socket.emit('joinRoom', {roomCode: roomIDInput.value, userName: userNameInput.value});
+            roomIDInput.value = '';
+            userNameInput.value = '';
           }
       });
 
@@ -54,10 +57,9 @@
           window.scrollTo(0, document.body.scrollHeight);
       });
 
-      socket.on('someInRoomEvent', function(msg) {
-        console.log(msg);
+      socket.on('newUserInRoom', function(msg) {
         var item = document.createElement('li');
-        item.textContent = msg;
+        item.textContent = "User has entered the room: " + msg;
         roomCodes.appendChild(item);
         window.scrollTo(0, document.body.scrollHeight);
       });
