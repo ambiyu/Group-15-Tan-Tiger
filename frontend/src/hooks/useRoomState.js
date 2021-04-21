@@ -55,7 +55,7 @@ export default function useRoomState() {
     socket.on('newUserInRoom', onNewUserJoin);
 
     return () => {
-      socket.removeListener('newUserJoin', onNewUserJoin);
+      socket.removeListener('newUserInRoom', onNewUserJoin);
     };
   }, []);
 
