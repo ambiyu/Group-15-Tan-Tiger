@@ -4,6 +4,8 @@ import { AppBar, Toolbar, IconButton, Typography } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
 import RoomPage from './pages/RoomPage';
 import CreateJoinRoomPage from './pages/CreateJoinRoomPage';
+import { RoomContext, RoomContextProvider } from './context/RoomContextProvider';
+import { useContext } from 'react';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -25,6 +27,9 @@ const useStyles = makeStyles((theme) => ({
 
 export default function App() {
   const classes = useStyles();
+  const { state } = useContext(RoomContext);
+
+  console.log(state);
 
   return (
     <div className={classes.root}>
@@ -34,17 +39,17 @@ export default function App() {
             <MenuIcon />
           </IconButton>
           <Typography className={classes.title} variant="h6" color="inherit">
-            Dank memes
+            {state.roomName ? state.roomName : 'Dank Memes'}
           </Typography>
           <Typography variant="h6" color="inherit">
-            Room Code: 12345
+            {state.roomCode && 'Room Code: ' + state.roomCode}
           </Typography>
         </Toolbar>
       </AppBar>
 
       <main className={classes.main}>
         <Switch>
-          <Route path="/room">
+          <Route path="/room/:roomCode">
             <RoomPage />
           </Route>
 

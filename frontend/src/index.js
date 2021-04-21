@@ -5,11 +5,14 @@ import reportWebVitals from './reportWebVitals';
 import App from './App';
 import 'fontsource-roboto';
 import './index.css';
+import { RoomContextProvider } from './context/RoomContextProvider';
 
 ReactDOM.render(
   <React.StrictMode>
     <Router>
-      <App />
+      <RoomContextProvider>
+        <App />
+      </RoomContextProvider>
     </Router>
   </React.StrictMode>,
   document.getElementById('root')
