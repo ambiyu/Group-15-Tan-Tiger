@@ -22,7 +22,6 @@ export default function Playlist({ playlist }) {
 
   return (
     <div>
-      <Typography variant="h6">Playlist</Typography>
       <List>
         {playlist.map((item, index) => (
           <>
