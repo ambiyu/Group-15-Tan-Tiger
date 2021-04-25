@@ -3,6 +3,7 @@ import { Grid, Paper } from '@material-ui/core';
 import styles from './RoomPage.module.css';
 import Playlist from '../components/Playlist';
 import { RoomContext } from '../context/RoomContextProvider';
+import YoutubePlayer from '../components/YoutubePlayer';
 
 export default function RoomPage() {
   const { state } = useContext(RoomContext);
@@ -15,6 +16,7 @@ export default function RoomPage() {
         </Paper>
       </Grid>
       <Grid item className={styles.middlePanel}>
+      <YoutubePlayer/>
         <Paper style={{ height: '100%' }}>
           {state.users.map((user, key) => (
             <li key={key}>{user.userName}</li>
