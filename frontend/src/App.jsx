@@ -29,8 +29,6 @@ export default function App() {
   const classes = useStyles();
   const { state } = useContext(RoomContext);
 
-  console.log(state);
-
   return (
     <div className={classes.root}>
       <AppBar position="static">

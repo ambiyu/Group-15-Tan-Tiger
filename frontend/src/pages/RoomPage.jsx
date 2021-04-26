@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import {
   AppBar,
   Grid,
@@ -12,6 +12,7 @@ import AddIcon from '@material-ui/icons/Add';
 import styles from './RoomPage.module.css';
 import Playlist from '../components/Playlist';
 import { RoomContext } from '../context/RoomContextProvider';
+import SearchModal from '../components/SearchModal';
 
 const useStyles = makeStyles(() => ({
   queueRoot: {
@@ -28,34 +29,40 @@ export default function RoomPage() {
   const classes = useStyles();
   const { state } = useContext(RoomContext);
 
-  return (
-    <Grid container justify="center" spacing={0} className={styles.roomPage}>
-      <Grid item className={styles.playlistPanel}>
-        <Paper className={classes.playlistRoot} style={{ height: '100%' }}>
-          <AppBar color="white" position="static">
-            <Toolbar>
-              <Typography className={classes.queueTitle} variant="h6">
-                Queue
-              </Typography>
-              <IconButton>
-                <AddIcon />
-              </IconButton>
-            </Toolbar>
-          </AppBar>
+  const [searchModalOpen, setSearchModalOpen] = useState(false);
 
-          <Playlist playlist={state.queue} />
-        </Paper>
+  return (
+    <>
+      <Grid container justify="center" spacing={0} className={styles.roomPage}>
+        <Grid item className={styles.playlistPanel}>
+          <Paper className={classes.playlistRoot} style={{ height: '100%' }}>
+            <AppBar color="transparent" position="static">
+              <Toolbar>
+                <Typography className={classes.queueTitle} variant="h6">
+                  Queue
+                </Typography>
+                <IconButton onClick={() => setSearchModalOpen(true)}>
+                  <AddIcon />
+                </IconButton>
+              </Toolbar>
+            </AppBar>
+
+            <Playlist playlist={state.queue} />
+          </Paper>
+        </Grid>
+        <Grid item className={styles.middlePanel}>
+          <Paper style={{ height: '100%' }}>
+            {state.users.map((user, key) => (
+              <li key={key}>{user.userName}</li>
+            ))}
+          </Paper>
+        </Grid>
+        <Grid item className={styles.chatPanel}>
+          <Paper style={{ height: '100%' }}>Chat</Paper>
+        </Grid>
       </Grid>
-      <Grid item className={styles.middlePanel}>
-        <Paper style={{ height: '100%' }}>
-          {state.users.map((user, key) => (
-            <li key={key}>{user.userName}</li>
-          ))}
-        </Paper>
-      </Grid>
-      <Grid item className={styles.chatPanel}>
-        <Paper style={{ height: '100%' }}>Chat</Paper>
-      </Grid>
-    </Grid>
+
+      <SearchModal open={searchModalOpen} setOpen={setSearchModalOpen} />
+    </>
   );
 }
