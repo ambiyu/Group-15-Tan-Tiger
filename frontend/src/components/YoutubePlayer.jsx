@@ -1,8 +1,6 @@
 import YouTube from '@u-wave/react-youtube';
 import {useEffect, useContext} from 'react';
-import { useHistory } from 'react-router';
 import { RoomContext } from '../context/RoomContextProvider';
-import socket from '../Socket';
 
 function YoutubePlayer() {
     const { state, dispatch } = useContext(RoomContext);
