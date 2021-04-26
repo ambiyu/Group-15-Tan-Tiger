@@ -4,7 +4,7 @@ import { AppBar, Toolbar, IconButton, Typography } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
 import RoomPage from './pages/RoomPage';
 import CreateJoinRoomPage from './pages/CreateJoinRoomPage';
-import { RoomContext, RoomContextProvider } from './context/RoomContextProvider';
+import { RoomContext } from './context/RoomContextProvider';
 import { useContext } from 'react';
 
 const useStyles = makeStyles((theme) => ({
