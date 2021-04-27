@@ -39,6 +39,13 @@ function reducer(state, action) {
         users: [...state.users, action.newUser],
       };
     }
+    case 'newMessage': {
+      const { message } = action;
+      return {
+        ...state, 
+        chatMessages: [...state.chatMessages, message],
+      }
+    }
     default:
       throw new Error(`Invalid action type: ${action.type}`);
   }
@@ -52,10 +59,16 @@ export default function useRoomState() {
       dispatch({ type: 'newUserJoined', newUser });
     }
 
+    socket.on('newMessage', function(message) {
+        console.log("Recevied message: " + message.content);
+        dispatch({type: 'newMessage', message: message});
+    })
+
     socket.on('newUserInRoom', onNewUserJoin);
 
     return () => {
       socket.removeListener('newUserInRoom', onNewUserJoin);
+      socket.removeListener('newMessage');
     };
   }, []);
 

@@ -3,6 +3,7 @@ import { Grid, Paper } from '@material-ui/core';
 import styles from './RoomPage.module.css';
 import Playlist from '../components/Playlist';
 import { RoomContext } from '../context/RoomContextProvider';
+import Chatbox from '../components/Chatbox';
 
 export default function RoomPage() {
   const { state } = useContext(RoomContext);
@@ -22,7 +23,7 @@ export default function RoomPage() {
         </Paper>
       </Grid>
       <Grid item className={styles.chatPanel}>
-        <Paper style={{ height: '100%' }}>Chat</Paper>
+        <Chatbox/>
       </Grid>
     </Grid>
   );
