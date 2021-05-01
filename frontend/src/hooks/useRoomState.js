@@ -9,7 +9,7 @@ const initialState = {
   currentlyPlaying: {
     // video info
   },
-  musicQueue: [], // change name to just queue?
+  queue: [], // change name to just queue?
   chatMessages: [],
 };
 
@@ -37,6 +37,12 @@ function reducer(state, action) {
       return {
         ...state,
         users: [...state.users, action.newUser],
+      };
+    }
+    case 'addToQueue': {
+      return {
+        ...state,
+        queue: [...state.queue, action.item],
       };
     }
     default:
