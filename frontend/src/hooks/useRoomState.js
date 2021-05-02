@@ -7,10 +7,10 @@ const initialState = {
   roomName: '',
   users: [],
   currentlyPlaying: {
-    videoURL: 'dQw4w9WgXcQ',
+    videoID: 'dQw4w9WgXcQ',
     timestamp: 0 // Changes whenever the host seeks to a new point in the song.
   },
-  musicQueue: [], // change name to just queue?
+  queue: [], // change name to just queue?
   chatMessages: [],
 };
 
@@ -40,14 +40,22 @@ function reducer(state, action) {
         users: [...state.users, action.newUser],
       };
     }
+
     case 'changeSongPlaying': {
-      const {videoURL} = action;
+      const {videoID} = action;
       return {
         ...state,
         currentlyPlaying: {
           ...state.currentlyPlaying,
-          videoURL: videoURL
+          videoID: videoID
         }
+      };
+    }
+    case 'addToQueue': {
+      return {
+        ...state,
+        queue: [...state.queue, action.item],
+
       };
     }
     default:
