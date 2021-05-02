@@ -1,4 +1,4 @@
-import { useEffect, useReducer } from 'react';
+import { useEffect, useReducer, useState } from 'react';
 import socket from '../Socket';
 
 const initialState = {
@@ -7,7 +7,8 @@ const initialState = {
   roomName: '',
   users: [],
   currentlyPlaying: {
-    // video info
+    videoID: 'dQw4w9WgXcQ',
+    timestamp: 0 // Changes whenever the host seeks to a new point in the song.
   },
   queue: [], // change name to just queue?
   chatMessages: [],
@@ -39,10 +40,22 @@ function reducer(state, action) {
         users: [...state.users, action.newUser],
       };
     }
+
+    case 'changeSongPlaying': {
+      const {videoID} = action;
+      return {
+        ...state,
+        currentlyPlaying: {
+          ...state.currentlyPlaying,
+          videoID: videoID
+        }
+      };
+    }
     case 'addToQueue': {
       return {
         ...state,
         queue: [...state.queue, action.item],
+
       };
     }
     default:
@@ -57,11 +70,17 @@ export default function useRoomState() {
     function onNewUserJoin(newUser) {
       dispatch({ type: 'newUserJoined', newUser });
     }
+    function onSongChanged(newSong) {
+      //TODO: Retrieval of other video information
+      dispatch({type: 'changeSongPlaying', newSong});
+    }
 
     socket.on('newUserInRoom', onNewUserJoin);
+    socket.on('changeSongPlaying', onSongChanged);
 
     return () => {
       socket.removeListener('newUserInRoom', onNewUserJoin);
+      socket.removeListener('changeSongPlaying', onSongChanged);
     };
   }, []);
 

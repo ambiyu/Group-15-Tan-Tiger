@@ -12,6 +12,8 @@ import AddIcon from '@material-ui/icons/Add';
 import styles from './RoomPage.module.css';
 import Playlist from '../components/Playlist';
 import { RoomContext } from '../context/RoomContextProvider';
+
+import YoutubePlayer from '../components/YoutubePlayer';
 import SearchModal from '../components/SearchModal';
 
 const useStyles = makeStyles(() => ({
@@ -24,6 +26,7 @@ const useStyles = makeStyles(() => ({
     flexGrow: 1,
   },
 }));
+
 
 export default function RoomPage() {
   const classes = useStyles();
