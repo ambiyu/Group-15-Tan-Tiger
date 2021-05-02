@@ -19,4 +19,7 @@ function playFirstVideoFromQueue(io, socket, roomManager) {
     socket.on("playFirst", (userName, roomName, callback) => { });
 }
 
-module.exports = function (io, socket, roomManager) { };
+module.exports = function (io, socket, roomManager) {
+    addToQueue(io, socket, roomManager);
+    removeFromQueue(io, socket, roomManagger);
+ };
