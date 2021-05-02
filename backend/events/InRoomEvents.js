@@ -1,21 +1,21 @@
 const User = require("../data/User");
 
 function addToQueue(io, socket, roomManager) {
-    socket.on("addToQueue", (url, roomCode) => {
+    socket.on("addToQueue", (item, roomCode) => {
         const room = roomManager.getRoomByCode(roomCode);
-        room.addToQueue(url);
+        room.addToQueue(item.id);
 
-        io.to(String(roomCode)).emit('updateQueue', url)
+        io.to(String(roomCode)).emit('updateQueue', item)
 
     });
 }
 
 function removeFromQueue(io, socket, roomManager) {
-    socket.on("removeFromQueue", (url, roomCode) => {
+    socket.on("removeFromQueue", (item, roomCode) => {
         const room = roomManager.getRoomByCode(roomCode);
-        room.removeFromQueue(url);
+        room.removeFromQueue(item.id);
 
-        io.to(String(roomCode)).emit('remove', url)
+        io.to(String(roomCode)).emit('remove', item)
     });
 }
 
