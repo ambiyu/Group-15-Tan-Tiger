@@ -7,7 +7,7 @@ function handleCreateRoom(io, socket, roomManager) {
     // and sends back room code.
     socket.on("createRoom", (userName, roomName, callback) => {
         const user = new User(userName);
-        const roomCode = roomManager.createNewRoom(user, roomName);
+        const roomCode = roomManager.createNewRoom(user,roomName);
 
         // Join this client socket to the a specific room. This prevent broadcasting to everyone.
         // Rooms are associated with a string, so must cast to work as expected.
