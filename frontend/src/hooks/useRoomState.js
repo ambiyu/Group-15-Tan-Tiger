@@ -8,7 +8,7 @@ const initialState = {
   users: [],
   currentlyPlaying: {
     videoID: 'dQw4w9WgXcQ',
-    timestamp: 0 // Changes whenever the host seeks to a new point in the song.
+    timestamp: 0, // Changes whenever the host seeks to a new point in the song.
   },
   queue: [], // change name to just queue?
   chatMessages: [],
@@ -42,20 +42,19 @@ function reducer(state, action) {
     }
 
     case 'changeSongPlaying': {
-      const {videoID} = action;
+      const { videoID } = action;
       return {
         ...state,
         currentlyPlaying: {
           ...state.currentlyPlaying,
-          videoID: videoID
-        }
+          videoID,
+        },
       };
     }
     case 'addToQueue': {
       return {
         ...state,
         queue: [...state.queue, action.item],
-
       };
     }
     default:
@@ -72,7 +71,7 @@ export default function useRoomState() {
     }
     function onSongChanged(newSong) {
       //TODO: Retrieval of other video information
-      dispatch({type: 'changeSongPlaying', newSong});
+      dispatch({ type: 'changeSongPlaying', newSong });
     }
 
     socket.on('newUserInRoom', onNewUserJoin);
