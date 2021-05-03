@@ -1,5 +1,5 @@
 const { YouTube } = require('popyt');
-const x = new YouTube(process.env.YOUTUBE_API_KEY, { cache: false })
+const youtube = new YouTube(process.env.YOUTUBE_API_KEY, { cache: false })
 
 class YoutubeQueue {
     constructor() {
