@@ -80,19 +80,18 @@ export default function useRoomState() {
       //TODO: Retrieval of other video information
       dispatch({type: 'changeSongPlaying', newSong});
     }
-
-    socket.on('newMessage', function(message) {
-        console.log("Recevied message: " + message.content);
-        dispatch({type: 'newMessage', message: message});
-    })
+    function onMessageReceived(message){
+      dispatch({type: 'newMessage', message: message});
+    }
 
     socket.on('newUserInRoom', onNewUserJoin);
     socket.on('changeSongPlaying', onSongChanged);
+    socket.on('newMessage', onMessageReceived);
 
     return () => {
       socket.removeListener('newUserInRoom', onNewUserJoin);
       socket.removeListener('changeSongPlaying', onSongChanged);
-      socket.removeListener('newMessage');
+      socket.removeListener('newMessage', onMessageReceived);
     };
   }, []);
 
