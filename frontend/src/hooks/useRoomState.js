@@ -7,7 +7,7 @@ const initialState = {
   roomName: '',
   users: [],
   currentlyPlaying: {
-    videoID: 'dQw4w9WgXcQ',
+    // videoID: 'dQw4w9WgXcQ',
     timestamp: 0, // Changes whenever the host seeks to a new point in the song.
   },
   queue: [], // change name to just queue?
@@ -57,6 +57,14 @@ function reducer(state, action) {
         queue: [...state.queue, action.item],
       };
     }
+    case 'playFirst': {
+      const firstVideo = state.queue[0];
+      return {
+        ...state,
+        queue: state.queue.slice(1),
+        currentlyPlaying: firstVideo,
+      };
+    }
     default:
       throw new Error(`Invalid action type: ${action.type}`);
   }
@@ -73,13 +81,23 @@ export default function useRoomState() {
       //TODO: Retrieval of other video information
       dispatch({ type: 'changeSongPlaying', newSong });
     }
+    function onAddToQueue(item) {
+      dispatch({ type: 'addToQueue', item });
+    }
+    function playFirstFromQueue() {
+      dispatch({ type: 'playFirst' });
+    }
 
     socket.on('newUserInRoom', onNewUserJoin);
     socket.on('changeSongPlaying', onSongChanged);
+    socket.on('updateQueue', onAddToQueue);
+    socket.on('play', playFirstFromQueue);
 
     return () => {
       socket.removeListener('newUserInRoom', onNewUserJoin);
       socket.removeListener('changeSongPlaying', onSongChanged);
+      socket.removeListener('updateQueue', onAddToQueue);
+      socket.removeListener('play', playFirstFromQueue);
     };
   }, []);
 

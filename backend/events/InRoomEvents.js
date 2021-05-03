@@ -5,8 +5,7 @@ function addToQueue(io, socket, roomManager) {
         const room = roomManager.getRoomByCode(roomCode);
         room.addToQueue(item.id);
 
-        io.to(String(roomCode)).emit('updateQueue', item)
-
+        io.to(String(roomCode)).emit("updateQueue", item);
     });
 }
 
@@ -15,14 +14,14 @@ function removeFromQueue(io, socket, roomManager) {
         const room = roomManager.getRoomByCode(roomCode);
         room.removeFromQueue(item.id);
 
-        io.to(String(roomCode)).emit('remove', item)
+        io.to(String(roomCode)).emit("remove", item);
     });
 }
 
 function playFirstVideoFromQueue(io, socket, roomManager) {
-    socket.on("playFirst", (userName, roomName, callback) => {
+    socket.on("playFirst", (roomCode) => {
         //starts playing for all. just using a message paasing for now
-        io.to(String(roomCode)).emit('play', "Start to play");
+        io.to(String(roomCode)).emit("play", "Start to play");
     });
 }
 
