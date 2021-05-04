@@ -7,7 +7,6 @@ import {
   Toolbar,
   Typography,
   makeStyles,
-  Button,
 } from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
 import styles from './RoomPage.module.css';
@@ -16,7 +15,6 @@ import { RoomContext } from '../context/RoomContextProvider';
 
 import YoutubePlayer from '../components/YoutubePlayer';
 import SearchModal from '../components/SearchModal';
-import socket from '../Socket';
 
 const useStyles = makeStyles(() => ({
   queueRoot: {
@@ -57,7 +55,6 @@ export default function RoomPage() {
         <Grid item className={styles.middlePanel}>
           <Paper style={{ height: '100%' }}>
             <YoutubePlayer />
-            <Button onClick={() => socket.emit('playFirst', state.roomCode)}>play first</Button>
             {state.users.map((user, key) => (
               <li key={key}>{user.userName}</li>
             ))}
