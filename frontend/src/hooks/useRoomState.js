@@ -1,4 +1,4 @@
-import { useEffect, useReducer, useState } from 'react';
+import { useEffect, useReducer } from 'react';
 import socket from '../Socket';
 
 const initialState = {
@@ -57,7 +57,7 @@ function reducer(state, action) {
         queue: [...state.queue, action.item],
       };
     }
-    case 'playFirst': {
+    case 'playNextInQueue': {
       const firstVideo = state.queue[0];
       return {
         ...state,
@@ -84,20 +84,20 @@ export default function useRoomState() {
     function onAddToQueue(item) {
       dispatch({ type: 'addToQueue', item });
     }
-    function playFirstFromQueue() {
-      dispatch({ type: 'playFirst' });
+    function playNextInQueue() {
+      dispatch({ type: 'playNextInQueue' });
     }
 
     socket.on('newUserInRoom', onNewUserJoin);
     socket.on('changeSongPlaying', onSongChanged);
-    socket.on('updateQueue', onAddToQueue);
-    socket.on('play', playFirstFromQueue);
+    socket.on('addToQueue', onAddToQueue);
+    socket.on('playNextInQueue', playNextInQueue);
 
     return () => {
       socket.removeListener('newUserInRoom', onNewUserJoin);
       socket.removeListener('changeSongPlaying', onSongChanged);
-      socket.removeListener('updateQueue', onAddToQueue);
-      socket.removeListener('play', playFirstFromQueue);
+      socket.removeListener('addToQueue', onAddToQueue);
+      socket.removeListener('playNextInQueue', playNextInQueue);
     };
   }, []);
 
