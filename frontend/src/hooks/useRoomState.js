@@ -42,7 +42,7 @@ function reducer(state, action) {
     }
 
     case 'changeSongPlaying': {
-      const {videoID} = action;
+      const { videoID } = action;
       return {
         ...state,
         currentlyPlaying: {
@@ -72,15 +72,20 @@ export default function useRoomState() {
     }
     function onSongChanged(newSong) {
       //TODO: Retrieval of other video information
-      dispatch({type: 'changeSongPlaying', newSong});
+      dispatch({ type: 'changeSongPlaying', newSong });
+    }
+    function onQueueUpdate(item) {
+      dispatch({ type: 'addToQueue', item })
     }
 
     socket.on('newUserInRoom', onNewUserJoin);
     socket.on('changeSongPlaying', onSongChanged);
+    socket.on('updateQueue', onQueueUpdate)
 
     return () => {
       socket.removeListener('newUserInRoom', onNewUserJoin);
       socket.removeListener('changeSongPlaying', onSongChanged);
+      socket.removeListener('updateQueue', onQueueUpdate);
     };
   }, []);
 
