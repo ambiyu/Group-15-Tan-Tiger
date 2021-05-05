@@ -17,6 +17,7 @@ class Room {
         this.musicQueue = new YoutubeQueue(); // Could initially store just URL, but could refactor to include votes too etc.
         this.queue = [];
         this.admin = ""; // Can specify which user is admin, might have admin specific privileges
+        this.paused = true; // Rooms start with no video so default to true.
     }
 
     playNextInQueue(doneCallback) {

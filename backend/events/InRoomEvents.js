@@ -1,6 +1,7 @@
 const User = require("../data/User");
 const Video = require("../data/Video");
 const { YouTube } = require("popyt");
+const Timer = require("tiny-timer");
 const youtube = new YouTube("AIzaSyCsof__3zgqWFUYwm3s0ED3jWHP8gHs06I");
 
 // Continuously plays videos in queue. The next video in the queue will be
@@ -54,18 +55,31 @@ function removeFromQueue(io, socket, roomManager) {
 }
 
 function pauseVideo(io, socket, roomManager) {
-    socket.on("pauseVideo", (roomCode) => {
+    socket.on("pauseVideo", (pauseTime, roomCode) => {
+        const room = roomManager.getRoomByCode(roomCode);
+        if(room === null || room.paused === undefined || room.paused === true) {
+            return;
+        }
+        room.paused = true;
         roomManager.getRoomByCode(roomCode).currentlyPlaying.timestamp.pause();
 
         // How do we want to handle out of sync timestamps when the host pauses?
+        console.log('downstream pause');
         io.to(String(roomCode)).emit("pauseVideo");
     });
 }
 
 function resumeVideo(io, socket, roomManager) {
-    socket.on("resumeVideo", (roomCode) => {
-        roomManager.getRoomByCode(roomCode).currentlyPlaying.timestamp.resume();
-
+    socket.on("resumeVideo", (resumeTime, roomCode) => {
+        const room = roomManager.getRoomByCode(roomCode);
+        if(room === null || room.paused === undefined || room.paused === false) {
+            return;
+        }
+        room.paused = false;
+        room.currentlyPlaying.timestamp = new Timer({ stopwatch: true });
+        const DELAY_BETWEEN_VIDEOS = 3000;
+        room.currentlyPlaying.timestamp.start(room.currentlyPlaying.video.duration -(resumeTime*1000) + DELAY_BETWEEN_VIDEOS);
+        console.log('downstream resume');
         io.to(String(roomCode)).emit("resumeVideo");
     });
 }
