@@ -2,9 +2,9 @@ import React from 'react'
 import Enzyme, { shallow } from 'enzyme'
 import Adapter from '@wojtekmaj/enzyme-adapter-react-17'
 import '@testing-library/jest-dom/extend-expect';
+import '../setupTests';
 
 import CJRP from '../pages/CreateJoinRoomPage'
-import c from '../components/Create'
 
 Enzyme.configure({ adapter: new Adapter() });
 
@@ -24,7 +24,7 @@ describe('CreateJoinRoomPage renders correctly', () => {
         useStateSpy.mockImplementation((init) => [init, setState]);
         // expect(wrapper.find('#tabs')).toHaveLength(1)
         wrapper.find('#tabs').props().onChange();
-        //   expect(setState).toHaveBeenCalledWith(1);
+          expect(setState).toHaveBeenCalledWith(1);
 
 
         // const stateSetter = jest.fn()
@@ -33,11 +33,11 @@ describe('CreateJoinRoomPage renders correctly', () => {
         //     //Simulate that mode state value was set to 'new mode value'
         //     .mockImplementation(stateValue => [stateValue = 1, stateSetter])
 
-        // expect(wrapper).toContainExactlyOneMatchingElement('Create');
+        expect(wrapper).toContainExactlyOneMatchingElement('Create');
 
 
 
-        expect(wrapper.find('Join')).toHaveLength(1)
+        // expect(wrapper.find('Join')).toHaveLength(1)
 
 
 
