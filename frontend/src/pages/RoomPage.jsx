@@ -12,6 +12,7 @@ import AddIcon from '@material-ui/icons/Add';
 import styles from './RoomPage.module.css';
 import Playlist from '../components/Playlist';
 import { RoomContext } from '../context/RoomContextProvider';
+import Chatbox from '../components/Chatbox';
 
 import YoutubePlayer from '../components/YoutubePlayer';
 import SearchModal from '../components/SearchModal';
@@ -26,7 +27,6 @@ const useStyles = makeStyles(() => ({
     flexGrow: 1,
   },
 }));
-
 
 export default function RoomPage() {
   const classes = useStyles();
@@ -55,13 +55,14 @@ export default function RoomPage() {
         </Grid>
         <Grid item className={styles.middlePanel}>
           <Paper style={{ height: '100%' }}>
+            <YoutubePlayer />
             {state.users.map((user, key) => (
               <li key={key}>{user.userName}</li>
             ))}
           </Paper>
         </Grid>
         <Grid item className={styles.chatPanel}>
-          <Paper style={{ height: '100%' }}>Chat</Paper>
+          <Chatbox/>
         </Grid>
       </Grid>
 
