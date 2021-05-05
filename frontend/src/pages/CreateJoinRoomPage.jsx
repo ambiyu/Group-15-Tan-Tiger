@@ -23,10 +23,10 @@ export default function CreateJoinRoomPage() {
   }
 
   return (
-    <Container component="main" maxWidth="xs">
-      <CssBaseline />
+    <Container id="container" component="main" maxWidth="xs">
+      <CssBaseline id='cssBaseLine' />
       <div id='check' className={classes.paper}>
-        <AppBar position="static">
+        <AppBar id='appBar' position="static">
           <Tabs id='tabs' value={value} onChange={handleChange}>
             <Tab id="t1" label="Create room" />
             <Tab id="t2" label="Join room" />

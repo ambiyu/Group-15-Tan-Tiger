@@ -8,10 +8,20 @@ import CJRP from '../pages/CreateJoinRoomPage'
 
 Enzyme.configure({ adapter: new Adapter() });
 
-describe('CreateJoinRoomPage renders correctly', () => {
+xdescribe('CreateJoinRoomPage renders correctly', () => {
 
-    it('checks if the CreateJoinRoomPage renders correctly ', () => {
-        const wrapper = shallow(<CJRP />);
+    let wrapper;
+
+    beforeEach(() => {
+        wrapper = shallow(<CJRP />);
+        // const setState = jest.fn();
+        // const useStateSpy = jest.spyOn(React, 'useState')
+        // useStateSpy.mockImplementation((init) => [init, setState]);
+    })
+
+
+    it('checks if the correct component Create is dispayed when the tabs are clicked ', () => {
+
         // const button = wrapper.find('tab');
         // const text = wrapper.find('tabs');
         // text.simulate('click')
@@ -19,12 +29,9 @@ describe('CreateJoinRoomPage renders correctly', () => {
         // wrapper.find('WithStyles(ForwardRef(Tabs))').childAt(1).simulate('click');
         // button.simulate('click')
 
-        const setState = jest.fn();
-        const useStateSpy = jest.spyOn(React, 'useState')
-        useStateSpy.mockImplementation((init) => [init, setState]);
+
         // expect(wrapper.find('#tabs')).toHaveLength(1)
-        wrapper.find('#tabs').props().onChange();
-          expect(setState).toHaveBeenCalledWith(1);
+        // wrapper.find('#tabs').props().onChange();
 
 
         // const stateSetter = jest.fn()
@@ -46,5 +53,26 @@ describe('CreateJoinRoomPage renders correctly', () => {
         // expect(text.text()).toBe('yup');
 
     })
+
+
+
+    it('checks if the correct component Join is dispayed when the tabs are clicked ', () => {
+
+        wrapper.find('#tabs').props().onChange();
+        expect(wrapper).toContainExactlyOneMatchingElement('Join');
+
+    })
+
+
+    it('checks that the component entirely displays correctly', () => {
+        expect(wrapper).toContainMatchingElements(1, '#container');
+        expect(wrapper).toContainMatchingElements(1, '#cssBaseLine');
+        expect(wrapper).toContainMatchingElements(1, '#appBar');
+        expect(wrapper).toContainExactlyOneMatchingElement('#tabs');
+        expect(wrapper).toContainExactlyOneMatchingElement('#t1');
+        expect(wrapper).toContainExactlyOneMatchingElement('#t2');
+    })
+
+
 
 })
