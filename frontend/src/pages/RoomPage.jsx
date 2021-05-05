@@ -28,7 +28,6 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-
 export default function RoomPage() {
   const classes = useStyles();
   const { state } = useContext(RoomContext);
@@ -56,6 +55,7 @@ export default function RoomPage() {
         </Grid>
         <Grid item className={styles.middlePanel}>
           <Paper style={{ height: '100%' }}>
+            <YoutubePlayer />
             {state.users.map((user, key) => (
               <li key={key}>{user.userName}</li>
             ))}
