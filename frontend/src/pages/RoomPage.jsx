@@ -12,6 +12,7 @@ import AddIcon from '@material-ui/icons/Add';
 import styles from './RoomPage.module.css';
 import Playlist from '../components/Playlist';
 import { RoomContext } from '../context/RoomContextProvider';
+import Chatbox from '../components/Chatbox';
 
 import YoutubePlayer from '../components/YoutubePlayer';
 import SearchModal from '../components/SearchModal';
@@ -61,7 +62,7 @@ export default function RoomPage() {
           </Paper>
         </Grid>
         <Grid item className={styles.chatPanel}>
-          <Paper style={{ height: '100%' }}>Chat</Paper>
+          <Chatbox/>
         </Grid>
       </Grid>
 

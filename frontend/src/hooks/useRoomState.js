@@ -40,7 +40,6 @@ function reducer(state, action) {
         users: [...state.users, action.newUser],
       };
     }
-
     case 'changeSongPlaying': {
       const {videoID} = action;
       return {
@@ -58,6 +57,13 @@ function reducer(state, action) {
 
       };
     }
+    case 'newMessage': {
+      const { message } = action;
+      return {
+        ...state, 
+        chatMessages: [...state.chatMessages, message],
+      }
+    }
     default:
       throw new Error(`Invalid action type: ${action.type}`);
   }
@@ -74,13 +80,18 @@ export default function useRoomState() {
       //TODO: Retrieval of other video information
       dispatch({type: 'changeSongPlaying', newSong});
     }
+    function onMessageReceived(message){
+      dispatch({type: 'newMessage', message: message});
+    }
 
     socket.on('newUserInRoom', onNewUserJoin);
     socket.on('changeSongPlaying', onSongChanged);
+    socket.on('newMessage', onMessageReceived);
 
     return () => {
       socket.removeListener('newUserInRoom', onNewUserJoin);
       socket.removeListener('changeSongPlaying', onSongChanged);
+      socket.removeListener('newMessage', onMessageReceived);
     };
   }, []);
 
