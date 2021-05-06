@@ -8,7 +8,7 @@ import CJRP from '../pages/CreateJoinRoomPage'
 
 Enzyme.configure({ adapter: new Adapter() });
 
-xdescribe('CreateJoinRoomPage renders correctly', () => {
+describe('CreateJoinRoomPage renders correctly', () => {
 
     let wrapper;
 
