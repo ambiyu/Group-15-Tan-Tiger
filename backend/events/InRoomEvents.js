@@ -44,9 +44,9 @@ function removeFromQueue(io, socket, roomManager) {
 }
 
 function pauseVideo(io, socket, roomManager) {
-    socket.on("pauseVideo", (pauseTime, roomCode) => {
+    socket.on("pauseVideo", (pauseTime, roomCode, user) => {
         const room = roomManager.getRoomByCode(roomCode);
-        if(room === null || room.paused === undefined || room.paused === true) {
+        if(room === null || room.paused === undefined || room.paused === true || room.admin !== user) {
             return;
         }
         room.paused = true;
@@ -54,14 +54,14 @@ function pauseVideo(io, socket, roomManager) {
 
         // How do we want to handle out of sync timestamps when the host pauses?
         console.log('downstream pause');
-        io.to(String(roomCode)).emit("pauseVideo");
+        io.to(String(roomCode)).emit("pauseVideo", pauseTime, user);
     });
 }
 
 function resumeVideo(io, socket, roomManager) {
-    socket.on("resumeVideo", (resumeTime, roomCode) => {
+    socket.on("resumeVideo", (resumeTime, roomCode, user) => {
         const room = roomManager.getRoomByCode(roomCode);
-        if(room === null || room.paused === undefined || room.paused === false) {
+        if(room === null || room.paused === undefined || room.paused === false || room.admin !== user) {
             return;
         }
         room.paused = false;
@@ -69,7 +69,7 @@ function resumeVideo(io, socket, roomManager) {
         const DELAY_BETWEEN_VIDEOS = 3000;
         room.currentlyPlaying.timestamp.start(room.currentlyPlaying.video.duration -(resumeTime*1000) + DELAY_BETWEEN_VIDEOS);
         console.log('downstream resume');
-        io.to(String(roomCode)).emit("resumeVideo");
+        io.to(String(roomCode)).emit("resumeVideo", resumeTime, user);
     });
 }
 
@@ -84,4 +84,6 @@ module.exports = function (io, socket, roomManager) {
     addToQueue(io, socket, roomManager);
     removeFromQueue(io, socket, roomManager);
     playFirstVideoFromQueue(io, socket, roomManager);
+    pauseVideo(io, socket, roomManager);
+    resumeVideo(io, socket, roomManager);
 };

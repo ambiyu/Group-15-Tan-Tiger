@@ -13,6 +13,7 @@ const initialState = {
   queue: [], // change name to just queue?
   chatMessages: [],
   paused: true,
+  seekTo: -1, // On non-negative value: triggers player to seek to that value and immediately resets to -1.
 };
 
 function reducer(state, action) {
@@ -60,15 +61,23 @@ function reducer(state, action) {
       };
     }
     case 'pauseVideo': {
+      if(action.newTime === undefined) {
+        return {
+          ...state,
+          paused: true
+        }
+      }
       return {
         ...state,
-        paused: true
+        paused: true,
+        seekTo: action.newTime
       }
     }
     case 'resumeVideo': {
       return {
         ...state,
-        paused: false
+        paused: false,
+        seekTo: action.newTime
       }
     }
     default:
@@ -87,11 +96,19 @@ export default function useRoomState() {
       //TODO: Retrieval of other video information
       dispatch({type: 'changeSongPlaying', newSong});
     }
-    function pauseVideo() {
-      dispatch({type: 'pauseVideo'});
+    function pauseVideo(newTime, initiator) { // Initiator refers to the user that resumed the video
+      if(initiator === state.username) { // Prevent user from repeating his own actions.
+        return;
+      }
+      dispatch({type: 'pauseVideo', newTime});
     }
-    function resumeVideo() {
-      dispatch({type: 'resumeVideo'});
+    function resumeVideo(newTime, initiator) { // Initiator refers to the user that resumed the video
+      console.log(state.username);
+      console.log(initiator + "-" + state.username);
+      if(initiator === state.username) {
+        return;
+      }
+      dispatch({type: 'resumeVideo', newTime});
     }
 
     socket.on('newUserInRoom', onNewUserJoin);
