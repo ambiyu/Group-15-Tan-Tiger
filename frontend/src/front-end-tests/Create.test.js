@@ -1,9 +1,3 @@
-// import React from 'react';
-// import'../setupTests'
-// import {shallow } from 'enzyme'
-
-
-
 import React, { useContext } from 'react'
 import Enzyme, { mount, shallow } from 'enzyme'
 import Adapter from '@wojtekmaj/enzyme-adapter-react-17'
@@ -25,7 +19,6 @@ describe('check this component', () => {
     let wrapper;
 
     beforeEach(() => {
-        // wrapper = shallow(<RoomContextProvider><Create /></RoomContextProvider>)
 
         wrapper = mount(<Create />, {
             wrappingComponent: RoomContextProvider
