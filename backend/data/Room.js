@@ -35,6 +35,9 @@ class Room {
 
     addUser(user) {
         this.users.push(user);
+        if(this.admin === "") { // First user becomes the admin.
+            this.admin = user.userName;
+        }
     }
 
     addToQueue(url) {
