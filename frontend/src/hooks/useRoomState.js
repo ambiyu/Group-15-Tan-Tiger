@@ -68,6 +68,12 @@ function reducer(state, action) {
       };
     }
     case 'pauseVideo': {
+      console.log(action.initiator + "-" + state.username);
+      if(action.initiator === state.username) {
+        return {
+          ...state
+        };
+      }
       if(action.newTime === undefined) {
         return {
           ...state,
@@ -81,6 +87,12 @@ function reducer(state, action) {
       }
     }
     case 'resumeVideo': {
+      console.log(action.initiator + "-" + state.username);
+      if(action.initiator === state.username) {
+        return {
+          ...state
+        };
+      }
       return {
         ...state,
         paused: false,
@@ -110,18 +122,10 @@ export default function useRoomState() {
       dispatch({ type: 'playNextInQueue' });
     }
     function pauseVideo(newTime, initiator) { // Initiator refers to the user that resumed the video
-      if(initiator === state.username) { // Prevent user from repeating his own actions.
-        return;
-      }
-      dispatch({type: 'pauseVideo', newTime});
+      dispatch({type: 'pauseVideo', newTime, initiator});
     }
     function resumeVideo(newTime, initiator) { // Initiator refers to the user that resumed the video
-      console.log(state.username);
-      console.log(initiator + "-" + state.username);
-      if(initiator === state.username) {
-        return;
-      }
-      dispatch({type: 'resumeVideo', newTime});
+      dispatch({type: 'resumeVideo', newTime, initiator});
     }
 
     socket.on('newUserInRoom', onNewUserJoin);
