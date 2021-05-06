@@ -8,12 +8,30 @@ function YoutubePlayer() {
   let playerComponent = useRef(null);
   // console.log(state);
 
+  // useEffect(() => {
+  //   let actualVideo = state.currentlyPlaying.videoID;
+  //   dispatch({ type: 'changeSongPlaying', videoID: '0' });
+  //   setTimeout(() => dispatch({ type: 'changeSongPlaying', videoID: actualVideo }), 20); // Delay needed to force update the player.
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [state.currentlyPlaying.timestamp]);
+
+  function pauseVideo(player) {
+    console.log('upstream pause for room ' + state.roomCode + " user " + state.username);
+    socket.emit('pauseVideo', player.getCurrentTime(), state.roomCode, state.username);
+  }
+  function resumeVideo(player) {
+    console.log('upstream resume for room ' + state.roomCode + " user " + state.username);
+    socket.emit('resumeVideo', player.getCurrentTime(), state.roomCode, state.username);
+  }
+
   useEffect(() => {
-    let actualVideo = state.currentlyPlaying.videoURL;
-    dispatch({type: 'changeSongPlaying', videoURL: '0'});
-    setTimeout(() => dispatch({type: 'changeSongPlaying', videoURL: actualVideo}), 20); // Delay needed to force update the player.
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [state.currentlyPlaying.timestamp]);
+    console.log("should seek to " + state.seekTo);
+    if(state.seekTo !== -1 && playerComponent.current !== null) {
+      let player = playerComponent.current;
+      player.playerInstance.seekTo(state.seekTo);
+      state.seekTo = -1;
+    }
+  }, [state.seekTo]);
 
   function pauseVideo(player) {
     console.log('upstream pause for room ' + state.roomCode + " user " + state.username);

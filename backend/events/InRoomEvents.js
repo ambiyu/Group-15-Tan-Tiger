@@ -25,12 +25,23 @@ function playNextInQueue(io, room) {
 }
 
 function addToQueue(io, socket, roomManager) {
-    socket.on("addToQueue", (item, roomCode) => {
+    socket.on("addToQueue", async (item, roomCode) => {
         const room = roomManager.getRoomByCode(roomCode);
-        room.addToQueue(item.id);
 
-        io.to(String(roomCode)).emit('updateQueue', item)
+        const { videoID, title, channel, thumbnail } = item;
 
+        // TODO: Move this along with frontend Youtube API call to a backend endpoint
+        const youtubeVideo = await youtube.getVideo(videoID);
+        const duration = (youtubeVideo.minutes * 60 + youtubeVideo.seconds) * 1000;
+        const video = new Video(videoID, title, channel, thumbnail, duration);
+
+        room.queue = [...room.queue, video];
+        io.to(String(roomCode)).emit("addToQueue", item);
+
+        // Start playing new video if queue was empty and a video is not playing currently
+        if (room.queue.length === 1 && room.currentlyPlaying.video == null) {
+            playNextInQueue(io, room);
+        }
     });
 }
 
@@ -73,10 +84,33 @@ function resumeVideo(io, socket, roomManager) {
     });
 }
 
-function playFirstVideoFromQueue(io, socket, roomManager) {
-    socket.on("playFirst", (userName, roomName, callback) => {
-        //starts playing for all. just using a message paasing for now
-        io.to(String(roomCode)).emit('play', "Start to play");
+function pauseVideo(io, socket, roomManager) {
+    socket.on("pauseVideo", (pauseTime, roomCode, user) => {
+        const room = roomManager.getRoomByCode(roomCode);
+        if(room === null || room.paused === undefined || room.paused === true || room.admin !== user) {
+            return;
+        }
+        room.paused = true;
+        roomManager.getRoomByCode(roomCode).currentlyPlaying.timestamp.pause();
+
+        // How do we want to handle out of sync timestamps when the host pauses?
+        console.log('downstream pause');
+        io.to(String(roomCode)).emit("pauseVideo", pauseTime, user);
+    });
+}
+
+function resumeVideo(io, socket, roomManager) {
+    socket.on("resumeVideo", (resumeTime, roomCode, user) => {
+        const room = roomManager.getRoomByCode(roomCode);
+        if(room === null || room.paused === undefined || room.paused === false || room.admin !== user) {
+            return;
+        }
+        room.paused = false;
+        room.currentlyPlaying.timestamp = new Timer({ stopwatch: true });
+        const DELAY_BETWEEN_VIDEOS = 3000;
+        room.currentlyPlaying.timestamp.start(room.currentlyPlaying.video.duration -(resumeTime*1000) + DELAY_BETWEEN_VIDEOS);
+        console.log('downstream resume');
+        io.to(String(roomCode)).emit("resumeVideo", resumeTime, user);
     });
 }
 
