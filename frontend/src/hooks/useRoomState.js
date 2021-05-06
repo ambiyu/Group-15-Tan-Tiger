@@ -12,6 +12,7 @@ const initialState = {
   },
   queue: [], // change name to just queue?
   chatMessages: [],
+  paused: true,
 };
 
 function reducer(state, action) {
@@ -58,6 +59,18 @@ function reducer(state, action) {
 
       };
     }
+    case 'pauseVideo': {
+      return {
+        ...state,
+        paused: true
+      }
+    }
+    case 'resumeVideo': {
+      return {
+        ...state,
+        paused: false
+      }
+    }
     default:
       throw new Error(`Invalid action type: ${action.type}`);
   }
@@ -74,13 +87,27 @@ export default function useRoomState() {
       //TODO: Retrieval of other video information
       dispatch({type: 'changeSongPlaying', newSong});
     }
+    function pauseVideo() {
+      dispatch({type: 'pauseVideo'});
+    }
+    function resumeVideo() {
+      dispatch({type: 'resumeVideo'});
+    }
 
     socket.on('newUserInRoom', onNewUserJoin);
     socket.on('changeSongPlaying', onSongChanged);
+    socket.on('addToQueue', onAddToQueue);
+    socket.on('playNextInQueue', playNextInQueue);
+    socket.on('pauseVideo', pauseVideo);
+    socket.on('resumeVideo', resumeVideo);
 
     return () => {
       socket.removeListener('newUserInRoom', onNewUserJoin);
       socket.removeListener('changeSongPlaying', onSongChanged);
+      socket.removeListener('addToQueue', onAddToQueue);
+      socket.removeListener('playNextInQueue', playNextInQueue);
+      socket.removeListener('pauseVideo', pauseVideo);
+      socket.removeListener('resumeVideo', resumeVideo);
     };
   }, []);
 

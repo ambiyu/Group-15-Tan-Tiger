@@ -9,9 +9,10 @@ class Room {
         this.roomCode = roomCode;
         this.users = [];
         this.chatMessages = []; // Chat won't be used in initial prototypes, but will store for later.
-        this.musicQueue = new YoutubeQueue; // Could initially store just URL, but could refactor to include votes too etc.
-
+        this.musicQueue = new YoutubeQueue(); // Could initially store just URL, but could refactor to include votes too etc.
+        this.queue = [];
         this.admin = ""; // Can specify which user is admin, might have admin specific privileges
+        this.paused = true; // Rooms start with no video so default to true.
     }
 
     addUser(user) {
