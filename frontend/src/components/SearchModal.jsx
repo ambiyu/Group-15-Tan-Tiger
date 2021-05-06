@@ -18,7 +18,10 @@ import AddIcon from '@material-ui/icons/Add';
 import { searchByQuery } from '../api/YoutubeApi';
 import { useContext, useState } from 'react';
 import { RoomContext } from '../context/RoomContextProvider';
+
 import React from 'react';
+
+import socket from '../Socket';
 
 
 const useStyles = makeStyles(() => ({
@@ -36,7 +39,7 @@ const useStyles = makeStyles(() => ({
 export default function SearchModal({ open, setOpen }) {
   const classes = useStyles();
   const [searchResults, setSearchResults] = useState([]);
-  const { dispatch } = useContext(RoomContext);
+  const { state, dispatch } = useContext(RoomContext);
 
   async function handleSearch() {
     const query = document.getElementById('search-input').value;
@@ -55,7 +58,8 @@ export default function SearchModal({ open, setOpen }) {
   }
 
   function handleAdd(item) {
-    dispatch({ type: 'addToQueue', item });
+    socket.emit('addToQueue', item, state.roomCode);
+    // dispatch({ type: 'addToQueue', item });
     setOpen(false);
   }
 

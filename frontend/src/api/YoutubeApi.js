@@ -17,7 +17,7 @@ export async function searchByQuery(query) {
       const items = res.data.items;
 
       const data = items.map((item) => ({
-        id: item.id.videoId,
+        videoID: item.id.videoId,
         title: item.snippet.title,
         channel: item.snippet.channelTitle,
         thumbnail: item.snippet.thumbnails.default.url,
