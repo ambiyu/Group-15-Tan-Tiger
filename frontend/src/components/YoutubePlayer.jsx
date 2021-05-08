@@ -1,10 +1,27 @@
+import { makeStyles } from '@material-ui/core';
 import YouTube from '@u-wave/react-youtube';
 import { useContext, useEffect, useRef } from 'react';
 import { RoomContext } from '../context/RoomContextProvider';
 import socket from '../Socket';
 
+const useStyles = makeStyles(() => ({
+  container: {
+    position: 'relative',
+    paddingBottom: '56.25%',
+    height: 0,
+  },
+  player: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    width: '100%',
+    height: '100%',
+  },
+}));
+
 function YoutubePlayer() {
-  const { state, dispatch } = useContext(RoomContext);
+  const classes = useStyles();
+  const { state } = useContext(RoomContext);
   let playerComponent = useRef(null);
   // console.log(state);
 
@@ -16,17 +33,17 @@ function YoutubePlayer() {
   // }, [state.currentlyPlaying.timestamp]);
 
   function pauseVideo(player) {
-    console.log('upstream pause for room ' + state.roomCode + " user " + state.username);
+    console.log('upstream pause for room ' + state.roomCode + ' user ' + state.username);
     socket.emit('pauseVideo', player.getCurrentTime(), state.roomCode, state.username);
   }
   function resumeVideo(player) {
-    console.log('upstream resume for room ' + state.roomCode + " user " + state.username);
+    console.log('upstream resume for room ' + state.roomCode + ' user ' + state.username);
     socket.emit('resumeVideo', player.getCurrentTime(), state.roomCode, state.username);
   }
 
   useEffect(() => {
-    console.log("should seek to " + state.seekTo);
-    if(state.seekTo !== -1 && playerComponent.current !== null) {
+    console.log('should seek to ' + state.seekTo);
+    if (state.seekTo !== -1 && playerComponent.current !== null) {
       let player = playerComponent.current;
       player.playerInstance.seekTo(state.seekTo);
       state.seekTo = -1;
@@ -34,8 +51,9 @@ function YoutubePlayer() {
   }, [state.seekTo]);
 
   return (
-    <div className="YoutubePlayer">
+    <div className={classes.container}>
       <YouTube
+        className={classes.player}
         ref={playerComponent}
         video={state.currentlyPlaying.videoID}
         startSeconds={state.currentlyPlaying.timestamp}
