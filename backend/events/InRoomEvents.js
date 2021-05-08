@@ -78,6 +78,17 @@ function resumeVideo(io, socket, roomManager) {
         room.paused = false;
         room.currentlyPlaying.timestamp = new Timer({ stopwatch: true });
         const DELAY_BETWEEN_VIDEOS = 3000;
+        room.currentlyPlaying.timestamp.on("done", () => {
+            if (room.queue.length > 0) {
+                playNextInQueue(io, room);
+            } else {
+                // Reset
+                room.currentlyPlaying = {
+                    video: null,
+                    timestamp: null,
+                };
+            }
+        });
         room.currentlyPlaying.timestamp.start(room.currentlyPlaying.video.duration -(resumeTime*1000) + DELAY_BETWEEN_VIDEOS);
         console.log('downstream resume');
         io.to(String(roomCode)).emit("resumeVideo", resumeTime, user);
