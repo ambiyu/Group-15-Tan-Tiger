@@ -1,10 +1,27 @@
+import { makeStyles } from '@material-ui/core';
 import YouTube from '@u-wave/react-youtube';
 import { useContext, useEffect, useRef } from 'react';
 import { RoomContext } from '../context/RoomContextProvider';
 import socket from '../Socket';
 
+const useStyles = makeStyles(() => ({
+  container: {
+    position: 'relative',
+    paddingBottom: '56.25%',
+    height: 0,
+  },
+  player: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    width: '100%',
+    height: '100%',
+  },
+}));
+
 function YoutubePlayer() {
-  const { state, dispatch } = useContext(RoomContext);
+  const classes = useStyles();
+  const { state } = useContext(RoomContext);
   let playerComponent = useRef(null);
   const video = state.currentlyPlaying.video;
   const timestamp = Math.ceil(state.currentlyPlaying.timestamp);
@@ -35,8 +52,9 @@ function YoutubePlayer() {
   }, [state.seekTo]);
 
   return (
-    <div className="YoutubePlayer">
+    <div className={classes.container}>
       <YouTube
+        className={classes.player}
         ref={playerComponent}
         video={video ? video.videoID : null}
         startSeconds={timestamp}
