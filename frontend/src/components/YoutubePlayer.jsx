@@ -33,24 +33,6 @@ function YoutubePlayer() {
     }
   }, [state.seekTo]);
 
-  function pauseVideo(player) {
-    console.log('upstream pause for room ' + state.roomCode + " user " + state.username);
-    socket.emit('pauseVideo', player.getCurrentTime(), state.roomCode, state.username);
-  }
-  function resumeVideo(player) {
-    console.log('upstream resume for room ' + state.roomCode + " user " + state.username);
-    socket.emit('resumeVideo', player.getCurrentTime(), state.roomCode, state.username);
-  }
-
-  useEffect(() => {
-    console.log("should seek to " + state.seekTo);
-    if(state.seekTo !== -1 && playerComponent.current !== null) {
-      let player = playerComponent.current;
-      player.playerInstance.seekTo(state.seekTo);
-      state.seekTo = -1;
-    }
-  }, [state.seekTo]);
-
   return (
     <div className="YoutubePlayer">
       <YouTube

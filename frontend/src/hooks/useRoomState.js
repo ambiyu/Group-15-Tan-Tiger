@@ -42,7 +42,6 @@ function reducer(state, action) {
         users: [...state.users, action.newUser],
       };
     }
-
     case 'changeSongPlaying': {
       const { videoID } = action;
       return {
@@ -99,6 +98,13 @@ function reducer(state, action) {
         seekTo: action.newTime
       }
     }
+    case 'newMessage': {
+      const { message } = action;
+      return {
+        ...state, 
+        chatMessages: [...state.chatMessages, message],
+      }
+    }
     default:
       throw new Error(`Invalid action type: ${action.type}`);
   }
@@ -127,11 +133,8 @@ export default function useRoomState() {
     function resumeVideo(newTime, initiator) { // Initiator refers to the user that resumed the video
       dispatch({type: 'resumeVideo', newTime, initiator});
     }
-    function pauseVideo(newTime, initiator) { // Initiator refers to the user that resumed the video
-      dispatch({type: 'pauseVideo', newTime, initiator});
-    }
-    function resumeVideo(newTime, initiator) { // Initiator refers to the user that resumed the video
-      dispatch({type: 'resumeVideo', newTime, initiator});
+    function onMessageReceived(message){
+      dispatch({type: 'newMessage', message: message});
     }
 
     socket.on('newUserInRoom', onNewUserJoin);
@@ -140,6 +143,8 @@ export default function useRoomState() {
     socket.on('playNextInQueue', playNextInQueue);
     socket.on('pauseVideo', pauseVideo);
     socket.on('resumeVideo', resumeVideo);
+    socket.on('newMessage', onMessageReceived);
+
 
     return () => {
       socket.removeListener('newUserInRoom', onNewUserJoin);
@@ -148,6 +153,7 @@ export default function useRoomState() {
       socket.removeListener('playNextInQueue', playNextInQueue);
       socket.removeListener('pauseVideo', pauseVideo);
       socket.removeListener('resumeVideo', resumeVideo);
+      socket.removeListener('newMessage', onMessageReceived);
     };
   }, []);
 

@@ -40,6 +40,12 @@ class RoomManager {
         // Make a random 6 digit number
         return 100000 + Math.floor(Math.random() * 900000);
     }
+
+    // For testing purposes, reset entire RoomManager.
+    clearAllData() {
+        this.roomDict = {};
+    }
+
 }
 
 module.exports = RoomManager;

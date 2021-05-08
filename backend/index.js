@@ -6,6 +6,7 @@ const port = process.env.PORT || 4000;
 
 const initEventHandlers = require('./events/RoomInitEvents');
 const inRoomHandlers = require('./events/inRoomEvents');
+const chatHandlers = require('./events/ChatEvents');
 
 const RoomManager = require('./data/RoomManager');
 // Handles storing information about all rooms - only in memory for now.
@@ -27,6 +28,7 @@ io.on('connection', (socket) => {
 
     initEventHandlers(io, socket, roomManager);
     inRoomHandlers(io, socket, roomManager);
+    chatHandlers(io, socket, roomManager);
     
     // Handle when users disconnect from app
     socket.on('disconnect', () => {

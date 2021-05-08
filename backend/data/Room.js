@@ -33,6 +33,19 @@ class Room {
         }
     }
 
+    playNextInQueue(doneCallback) {
+        if (this.queue.length > 0) {
+            this.currentlyPlaying.video = this.queue.shift();
+            this.currentlyPlaying.timestamp = new Timer({ stopwatch: true });
+            this.currentlyPlaying.timestamp.on("done", doneCallback);
+
+            const DELAY_BETWEEN_VIDEOS = 3000;
+            this.currentlyPlaying.timestamp.start(
+                this.currentlyPlaying.video.duration + DELAY_BETWEEN_VIDEOS
+            );
+        }
+    }
+
     addUser(user) {
         this.users.push(user);
         if(this.admin === "") { // First user becomes the admin.
