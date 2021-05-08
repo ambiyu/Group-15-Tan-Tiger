@@ -1,5 +1,4 @@
 import { useContext, useState } from 'react';
-import React from 'react';
 import {
   AppBar,
   Grid,
@@ -14,7 +13,6 @@ import styles from './RoomPage.module.css';
 import Playlist from '../components/Playlist';
 import { RoomContext } from '../context/RoomContextProvider';
 import Chatbox from '../components/Chatbox';
-
 
 import YoutubePlayer from '../components/YoutubePlayer';
 import SearchModal from '../components/SearchModal';
@@ -38,21 +36,21 @@ export default function RoomPage() {
 
   return (
     <>
-      <Grid id='grid' container justify="center" spacing={0} className={styles.roomPage}>
+      <Grid container justify="center" spacing={0} className={styles.roomPage}>
         <Grid item className={styles.playlistPanel}>
-          <Paper id='paper' className={classes.playlistRoot} style={{ height: '100%' }}>
-            <AppBar id='appBar' color="transparent" position="static">
-              <Toolbar id='ToolBar'>
-                <Typography id='TypoGraphy' className={classes.queueTitle} variant="h6">
+          <Paper className={classes.playlistRoot} style={{ height: '100%' }}>
+            <AppBar color="transparent" position="static">
+              <Toolbar>
+                <Typography className={classes.queueTitle} variant="h6">
                   Queue
                 </Typography>
-                <IconButton id='iconButton' onClick={() => setSearchModalOpen(true)}>
-                  <AddIcon id='addIcon' />
+                <IconButton onClick={() => setSearchModalOpen(true)}>
+                  <AddIcon />
                 </IconButton>
               </Toolbar>
             </AppBar>
 
-            <Playlist id='playlist' playlist={state.queue} />
+            <Playlist playlist={state.queue} />
           </Paper>
         </Grid>
         <Grid item className={styles.middlePanel}>
