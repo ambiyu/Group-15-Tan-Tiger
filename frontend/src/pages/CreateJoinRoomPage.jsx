@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { Tabs, Tab, AppBar, CssBaseline, makeStyles, Container } from '@material-ui/core/';
 import Create from '../components/Create';
 import Join from '../components/Join';
-import React from 'react';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -23,13 +22,13 @@ export default function CreateJoinRoomPage() {
   }
 
   return (
-    <Container id="container" component="main" maxWidth="xs">
-      <CssBaseline id='cssBaseLine' />
-      <div id='check' className={classes.paper}>
-        <AppBar id='appBar' position="static">
-          <Tabs id='tabs' value={value} onChange={handleChange}>
-            <Tab id="t1" label="Create room" />
-            <Tab id="t2" label="Join room" />
+    <Container component="main" maxWidth="xs">
+      <CssBaseline />
+      <div className={classes.paper}>
+        <AppBar position="static">
+          <Tabs value={value} onChange={handleChange}>
+            <Tab label="Create room" />
+            <Tab label="Join room" />
           </Tabs>
         </AppBar>
 

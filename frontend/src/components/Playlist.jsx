@@ -1,7 +1,6 @@
 import { List, ListItem, Divider, ListItemText, ListItemAvatar, Avatar } from '@material-ui/core';
 import { useContext } from 'react';
 import { RoomContext } from '../context/RoomContextProvider';
-import React from 'react';
 
 export default function Playlist() {
   const { state } = useContext(RoomContext);
