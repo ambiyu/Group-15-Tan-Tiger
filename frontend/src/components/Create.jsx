@@ -1,5 +1,6 @@
 import { Button, TextField, makeStyles } from '@material-ui/core';
-import { useContext } from 'react';
+import React from 'react'
+import {useContext } from 'react';
 import { useHistory } from 'react-router';
 import { RoomContext } from '../context/RoomContextProvider';
 import socket from '../Socket';
@@ -38,7 +39,7 @@ export default function Create() {
         margin="normal"
         required
         fullWidth
-        id="room-name"
+        id="room-name2"
         label="Room Name"
         name="room-name"
         autoFocus
@@ -58,6 +59,7 @@ export default function Create() {
         color="primary"
         className={classes.button}
         onClick={handleCreate}
+        id="button"
       >
         Create Room
       </Button>

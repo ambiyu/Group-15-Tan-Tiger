@@ -18,7 +18,11 @@ import AddIcon from '@material-ui/icons/Add';
 import { searchByQuery } from '../api/YoutubeApi';
 import { useContext, useState } from 'react';
 import { RoomContext } from '../context/RoomContextProvider';
+
+import React from 'react';
+
 import socket from '../Socket';
+
 
 const useStyles = makeStyles(() => ({
   searchRoot: {
