@@ -6,7 +6,8 @@ import socket from '../Socket';
 function YoutubePlayer() {
   const { state, dispatch } = useContext(RoomContext);
   let playerComponent = useRef(null);
-  // console.log(state);
+  const video = state.currentlyPlaying.video;
+  const timestamp = Math.ceil(state.currentlyPlaying.timestamp);
 
   // useEffect(() => {
   //   let actualVideo = state.currentlyPlaying.videoID;
@@ -16,17 +17,17 @@ function YoutubePlayer() {
   // }, [state.currentlyPlaying.timestamp]);
 
   function pauseVideo(player) {
-    console.log('upstream pause for room ' + state.roomCode + " user " + state.username);
+    console.log('upstream pause for room ' + state.roomCode + ' user ' + state.username);
     socket.emit('pauseVideo', player.getCurrentTime(), state.roomCode, state.username);
   }
   function resumeVideo(player) {
-    console.log('upstream resume for room ' + state.roomCode + " user " + state.username);
+    console.log('upstream resume for room ' + state.roomCode + ' user ' + state.username);
     socket.emit('resumeVideo', player.getCurrentTime(), state.roomCode, state.username);
   }
 
   useEffect(() => {
-    console.log("should seek to " + state.seekTo);
-    if(state.seekTo !== -1 && playerComponent.current !== null) {
+    console.log('should seek to ' + state.seekTo);
+    if (state.seekTo !== -1 && playerComponent.current !== null) {
       let player = playerComponent.current;
       player.playerInstance.seekTo(state.seekTo);
       state.seekTo = -1;
@@ -37,8 +38,8 @@ function YoutubePlayer() {
     <div className="YoutubePlayer">
       <YouTube
         ref={playerComponent}
-        video={state.currentlyPlaying.videoID}
-        startSeconds={state.currentlyPlaying.timestamp}
+        video={video ? video.videoID : null}
+        startSeconds={timestamp}
         autoplay
         disableKeyboard={true}
         paused={state.paused}

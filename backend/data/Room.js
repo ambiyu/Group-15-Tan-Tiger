@@ -13,8 +13,8 @@ class Room {
             video: null,
             timestamp: null,
         };
-        this.chatMessages = []; // Chat won't be used in initial prototypes, but will store for later.
-        this.musicQueue = new YoutubeQueue(); // Could initially store just URL, but could refactor to include votes too etc.
+        // this.chatMessages = []; // Chat won't be used in initial prototypes, but will store for later.
+        // this.musicQueue = new YoutubeQueue(); // Could initially store just URL, but could refactor to include votes too etc.
         this.queue = [];
         this.admin = ""; // Can specify which user is admin, might have admin specific privileges
         this.paused = true; // Rooms start with no video so default to true.
@@ -48,7 +48,8 @@ class Room {
 
     addUser(user) {
         this.users.push(user);
-        if(this.admin === "") { // First user becomes the admin.
+        if (this.admin === "") {
+            // First user becomes the admin.
             this.admin = user.userName;
         }
     }
