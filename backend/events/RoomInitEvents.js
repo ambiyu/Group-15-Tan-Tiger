@@ -7,7 +7,7 @@ function handleCreateRoom(io, socket, roomManager) {
     // and sends back room code.
     socket.on("createRoom", (userName, roomName, callback) => {
         const user = new User(userName);
-        const roomCode = roomManager.createNewRoom(user,roomName);
+        const roomCode = roomManager.createNewRoom(user, roomName);
 
         // Join this client socket to the a specific room. This prevent broadcasting to everyone.
         // Rooms are associated with a string, so must cast to work as expected.
@@ -29,7 +29,17 @@ function handleJoinRoom(io, socket, roomManager) {
         roomManager.addUserToRoom(user, roomCode);
         const room = roomManager.getRoomByCode(roomCode);
 
-        callback(room);
+        const roomData = {
+            ...room,
+            currentlyPlaying: {
+                video: room.currentlyPlaying.video,
+                timestamp: room.currentlyPlaying.timestamp
+                    ? room.currentlyPlaying.timestamp.time / 1000
+                    : 0,
+            },
+        };
+
+        callback(roomData);
 
         // Send message to all in room that new user has joined - more data might be required, but
         // user name should be sufficient for now.
