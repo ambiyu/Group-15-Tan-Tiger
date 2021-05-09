@@ -17,7 +17,7 @@ function addToQueue(io, socket, roomManager) {
         io.to(String(roomCode)).emit("addToQueue", item);
 
         // Start playing new video if queue was empty and a video is not playing currently
-        if (room.queue.length === 1 && room.currentlyPlaying.video == null) {
+        if (room.queue.length === 1 && !room.currentlyPlaying.video) {
             playNextInQueue(room, io);
         }
     });
@@ -65,10 +65,11 @@ function playVideo(io, socket, roomManager) {
 }
 
 function playNextInQueue(room, io) {
+    room.advanceQueue();
+
     if (room.queue.length > 0) {
         io.to(String(room.roomCode)).emit("playNextInQueue");
 
-        room.advanceQueue();
         room.playVideo(0, () => {
             playNextInQueue(room, io);
         });
