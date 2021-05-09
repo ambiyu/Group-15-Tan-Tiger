@@ -32,7 +32,7 @@ export default function App() {
   return (
     <div className={classes.root}>
       <AppBar position="static">
-        <Toolbar>
+        <Toolbar variant="dense">
           <IconButton className={classes.menuButton} edge="start" color="inherit">
             <MenuIcon />
           </IconButton>

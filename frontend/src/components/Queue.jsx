@@ -16,8 +16,18 @@ import { RoomContext } from '../context/RoomContextProvider';
 import SearchModal from './SearchModal';
 
 const useStyles = makeStyles(() => ({
+  root: {
+    display: 'flex',
+    flexDirection: 'column',
+    height: '100%',
+  },
   queueTitle: {
     flexGrow: 1,
+  },
+  queueList: {
+    height: 'calc(100vh - 96px)',
+    overflowY: 'auto',
+    padding: 0,
   },
 }));
 
@@ -28,9 +38,9 @@ export default function Queue() {
   const [searchModalOpen, setSearchModalOpen] = useState(false);
 
   return (
-    <>
+    <div className={classes.root}>
       <AppBar color="transparent" position="static">
-        <Toolbar>
+        <Toolbar variant="dense">
           <Typography className={classes.queueTitle} variant="h6">
             Queue
           </Typography>
@@ -40,19 +50,17 @@ export default function Queue() {
         </Toolbar>
       </AppBar>
 
-      <List>
+      <List className={classes.queueList}>
         {state.queue.map((item, index) => (
-          <>
-            <ListItem key={index} divider dense>
-              <ListItemAvatar>
-                <Avatar src={item.thumbnail} variant="square" />
-              </ListItemAvatar>
-              <ListItemText primary={item.title} secondary={item.channel} />
-            </ListItem>
-          </>
+          <ListItem key={index} divider dense>
+            <ListItemAvatar>
+              <Avatar src={item.thumbnail} variant="square" />
+            </ListItemAvatar>
+            <ListItemText primary={item.title} secondary={item.channel} />
+          </ListItem>
         ))}
       </List>
       <SearchModal open={searchModalOpen} setOpen={setSearchModalOpen} />
-    </>
+    </div>
   );
 }
