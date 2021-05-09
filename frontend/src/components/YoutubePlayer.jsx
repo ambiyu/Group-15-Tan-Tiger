@@ -50,7 +50,7 @@ function YoutubePlayer() {
       player.playerInstance.seekTo(state.seekTo);
       state.seekTo = -1;
     }
-  }, [state.seekTo]);
+  }, [state]);
 
   return (
     <div className={classes.container}>

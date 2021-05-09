@@ -1,4 +1,5 @@
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
+import { useHistory } from 'react-router';
 import React from 'react';
 import { RoomContext } from '../context/RoomContextProvider';
 import {
@@ -9,10 +10,10 @@ import {
   useMediaQuery,
   BottomNavigation,
   BottomNavigationAction,
-  Avatar, 
-  ListItem, 
-  ListItemAvatar, 
-  ListItemText, 
+  Avatar,
+  ListItem,
+  ListItemAvatar,
+  ListItemText,
   Box,
 } from '@material-ui/core';
 import QueueMusicIcon from '@material-ui/icons/QueueMusic';
@@ -33,10 +34,17 @@ const useStyles = makeStyles(() => ({
 
 export default function RoomPage() {
   const classes = useStyles();
+  const history = useHistory();
   const isMobile = useMediaQuery('(max-width:600px)');
   const { state } = useContext(RoomContext);
 
   const [mobileNav, setMobileNav] = useState(0);
+
+  useEffect(() => {
+    if (state.roomCode === '') {
+      history.push(`/`);
+    }
+  }, [state.roomCode, history]);
 
   if (isMobile) {
     return (
@@ -53,20 +61,23 @@ export default function RoomPage() {
           <Queue />
         </div>
 
-        <Typography style={{ height: '100%', marginBottom: 56 }}
+        <Typography
+          style={{ height: '100%', marginBottom: 56 }}
           component="div"
-          hidden={mobileNav !== 1}>
+          hidden={mobileNav !== 1}
+        >
           {state.users.map((user, key) => {
-                return (
-                    <ListItem key={key} divider alignItems='flex-start'>
-                        <ListItemAvatar>
-                            <Avatar alt={user.userName} src="" />
-                        </ListItemAvatar>
-                        <ListItemText >
-                            <Typography>{user.userName}</Typography>
-                        </ListItemText>
-                    </ListItem>
-          )})}
+            return (
+              <ListItem key={key} divider alignItems="flex-start">
+                <ListItemAvatar>
+                  <Avatar alt={user.userName} src="" />
+                </ListItemAvatar>
+                <ListItemText>
+                  <Typography>{user.userName}</Typography>
+                </ListItemText>
+              </ListItem>
+            );
+          })}
         </Typography>
 
         <div
@@ -95,7 +106,7 @@ export default function RoomPage() {
 
   return (
     <>
-      <Grid id='grid' container justify="center" spacing={0} className={styles.roomPage}>
+      <Grid id="grid" container justify="center" spacing={0} className={styles.roomPage}>
         <Grid item className={styles.playlistPanel}>
           <Paper style={{ height: '100%' }}>
             <Queue />
@@ -104,12 +115,14 @@ export default function RoomPage() {
         <Grid item className={styles.middlePanel}>
           <Paper style={{ height: '100%' }}>
             <YoutubePlayer />
-            <Grid container spacing={1} style={{display: 'flex'}}>
+            <Grid container spacing={1} style={{ display: 'flex' }}>
               {state.users.map((user, key) => (
                 <Grid item xs={4} key={key}>
-                  <Box style={{display: 'flex', marginTop: '15px', marginLeft: '5px'}}>
-                    <Avatar alt={user.userName} src=""/>
-                    <Typography inline style={{fontSize: "1vw", marginLeft: '10px'}}>{user.userName}</Typography>
+                  <Box style={{ display: 'flex', marginTop: '15px', marginLeft: '5px' }}>
+                    <Avatar alt={user.userName} src="" />
+                    <Typography inline style={{ fontSize: '1vw', marginLeft: '10px' }}>
+                      {user.userName}
+                    </Typography>
                   </Box>
                 </Grid>
               ))}
