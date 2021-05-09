@@ -39,7 +39,7 @@ export default function Create() {
         margin="normal"
         required
         fullWidth
-        id="room-name2"
+        id="room-name"
         label="Room Name"
         name="room-name"
         autoFocus
