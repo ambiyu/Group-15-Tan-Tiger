@@ -1,4 +1,5 @@
 import { useContext, useState } from 'react';
+import React from 'react';
 import { RoomContext } from '../context/RoomContextProvider';
 import {
   Grid,
@@ -23,14 +24,6 @@ import Chatbox from '../components/Chatbox';
 import YoutubePlayer from '../components/YoutubePlayer';
 
 const useStyles = makeStyles(() => ({
-  queueRoot: {
-    display: 'flex',
-    flexFlow: 'column',
-    flex: 1,
-  },
-  queueTitle: {
-    flexGrow: 1,
-  },
   mobileNav: {
     position: 'fixed',
     bottom: 0,
@@ -50,11 +43,19 @@ export default function RoomPage() {
       <>
         <YoutubePlayer />
 
-        <Typography component="div" hidden={mobileNav !== 0}>
+        <div
+          style={{
+            display: mobileNav !== 0 ? 'none' : 'flex',
+            flexDirection: 'column',
+            height: `calc(100vh - 104px - ${window.innerWidth * 0.5625}px)`,
+          }}
+        >
           <Queue />
-        </Typography>
+        </div>
 
-        <Typography component="div" hidden={mobileNav !== 1}>
+        <Typography style={{ height: '100%', marginBottom: 56 }}
+          component="div"
+          hidden={mobileNav !== 1}>
           {state.users.map((user, key) => {
                 return (
                     <ListItem key={key} divider alignItems='flex-start'>
@@ -68,9 +69,15 @@ export default function RoomPage() {
           )})}
         </Typography>
 
-        <Typography component="div" hidden={mobileNav !== 2}>
+        <div
+          style={{
+            display: mobileNav !== 2 ? 'none' : 'flex',
+            flexDirection: 'column',
+            height: `calc(100vh - 104px - ${window.innerWidth * 0.5625}px)`,
+          }}
+        >
           <Chatbox />
-        </Typography>
+        </div>
 
         <BottomNavigation
           className={classes.mobileNav}
@@ -88,7 +95,7 @@ export default function RoomPage() {
 
   return (
     <>
-      <Grid container justify="center" spacing={0} className={styles.roomPage}>
+      <Grid id='grid' container justify="center" spacing={0} className={styles.roomPage}>
         <Grid item className={styles.playlistPanel}>
           <Paper style={{ height: '100%' }}>
             <Queue />
@@ -110,7 +117,9 @@ export default function RoomPage() {
           </Paper>
         </Grid>
         <Grid item className={styles.chatPanel}>
-          <Chatbox />
+          <Paper style={{ height: '100%' }}>
+            <Chatbox />
+          </Paper>
         </Grid>
       </Grid>
     </>
