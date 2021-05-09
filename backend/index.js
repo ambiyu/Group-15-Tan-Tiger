@@ -5,7 +5,7 @@ const server = http.createServer(app);
 const port = process.env.PORT || 4000;
 
 const initEventHandlers = require("./events/RoomInitEvents");
-const inRoomHandlers = require("./events/inRoomEvents");
+const inRoomHandlers = require("./events/InRoomEvents");
 const chatHandlers = require("./events/ChatEvents");
 
 const RoomManager = require("./data/RoomManager");

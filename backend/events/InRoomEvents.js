@@ -18,8 +18,7 @@ function addToQueue(io, socket, roomManager) {
 
         // Start playing new video if queue was empty and a video is not playing currently
         if (room.queue.length === 1 && room.currentlyPlaying.video == null) {
-            room.advanceQueue();
-            io.to(String(room.roomCode)).emit("playNextInQueue");
+            playNextInQueue(room, io);
         }
     });
 }
@@ -55,15 +54,25 @@ function playVideo(io, socket, roomManager) {
             return;
         }
 
-        // Continuously plays videos in queue. The next video in the queue will be
-        // automatically played after the current one finishes.
         room.playVideo(playTime, () => {
-            room.advanceQueue();
-            io.to(String(room.roomCode)).emit("playNextInQueue");
+            playNextInQueue(room, io);
         });
 
         io.to(String(roomCode)).emit("playVideo", playTime, user);
     });
+}
+
+// Continuously plays videos in queue. The next video in the queue will be
+// automatically played after the current one finishes.
+function playNextInQueue(room, io) {
+    if (room.queue.length > 0) {
+        io.to(String(room.roomCode)).emit("playNextInQueue");
+
+        room.advanceQueue();
+        room.playVideo(0, () => {
+            playNextInQueue(room, io);
+        });
+    }
 }
 
 module.exports = function (io, socket, roomManager) {
