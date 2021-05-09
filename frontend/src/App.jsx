@@ -6,8 +6,7 @@ import RoomPage from './pages/RoomPage';
 import CreateJoinRoomPage from './pages/CreateJoinRoomPage';
 import { RoomContext } from './context/RoomContextProvider';
 import { useContext } from 'react';
-import { Icon, InlineIcon } from '@iconify/react';
-import octopusDeploy from '@iconify-icons/logos/octopus-deploy';
+
 
 
 const useStyles = makeStyles((theme) => ({
@@ -48,14 +47,7 @@ export default function App() {
         </Toolbar>
       </AppBar>
 
-      <Grid container  justify="center">
-        <Grid item align="center"  >
-          <Typography marginTop="10" color="primary" align="center" variant="h2" gutterBottom>OctoTube</Typography>
-        </Grid>
-        <Grid>
-          <Icon icon={octopusDeploy} fontSize="large" />
-        </Grid>
-      </Grid>
+     
 
       <main className={classes.main}>
         <Switch>
