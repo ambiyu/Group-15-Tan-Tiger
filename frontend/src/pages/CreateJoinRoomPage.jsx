@@ -1,3 +1,4 @@
+import React from 'react';
 import { useState } from 'react';
 import {
   Tabs,
@@ -11,7 +12,6 @@ import {
 } from '@material-ui/core/';
 import Create from '../components/Create';
 import Join from '../components/Join';
-import React from 'react';
 
 const useStyles = makeStyles((theme) => ({
   paper: {

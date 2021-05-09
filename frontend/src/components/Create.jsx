@@ -1,5 +1,5 @@
+import React from 'react';
 import { Button, TextField, makeStyles } from '@material-ui/core';
-import React from 'react'
 import { useContext } from 'react';
 import { useHistory } from 'react-router';
 import { RoomContext } from '../context/RoomContextProvider';
@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
 export default function Create() {
   const classes = useStyles();
   const history = useHistory();
-  const { state, dispatch } = useContext(RoomContext);
+  const { dispatch } = useContext(RoomContext);
 
   function handleCreate() {
     const nickname = document.getElementById('username').value;
@@ -26,8 +26,6 @@ export default function Create() {
 
     socket.emit('createRoom', nickname, roomName, ({ user, roomCode }) => {
       dispatch({ type: 'createRoom', user, roomCode, roomName });
-      console.log(state.username);
-      console.log(state.roomCode);
       history.push(`/room/${roomCode}`);
     });
   }

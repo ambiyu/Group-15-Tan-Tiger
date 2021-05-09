@@ -1,6 +1,6 @@
+import React from 'react';
 import { useContext, useEffect, useState } from 'react';
 import { useHistory } from 'react-router';
-import React from 'react';
 import { RoomContext } from '../context/RoomContextProvider';
 import {
   Grid,
