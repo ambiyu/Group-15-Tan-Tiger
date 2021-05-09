@@ -8,6 +8,7 @@ import RP from '../pages/RoomPage'
 import {RoomContextProvider} from '../context/RoomContextProvider'
 
 
+
 import {
     AppBar,
     Grid,
@@ -17,8 +18,8 @@ import {
     Typography,
     makeStyles,
   } from '@material-ui/core';
-import Playlist from '../components/Playlist';
 import SearchModal from '../components/SearchModal';
+import chatBox from '../components/Chatbox';
 
 Enzyme.configure({ adapter: new Adapter() });
 
@@ -41,14 +42,12 @@ describe('CreateJoinRoomPage renders correctly', () => {
         
 
         expect(wrapper).toContainMatchingElements(4, Grid);
-        //check this test expected 3 but returns four
-        // expect(wrapper).toContainMatchingElements(3, Paper);
-        expect(wrapper).toContainMatchingElements(1, AppBar);
+        expect(wrapper).toContainMatchingElements(4, Paper);
         expect(wrapper).toContainMatchingElements(1, Toolbar);
         expect(wrapper).toContainMatchingElements(2, Typography);
         expect(wrapper).toContainMatchingElements(1, IconButton);
-        expect(wrapper).toContainMatchingElements(1, Playlist);
         expect(wrapper).toContainMatchingElements(1, SearchModal);
+        expect(wrapper).toContainMatchingElements(1, chatBox)
                 
 
     })

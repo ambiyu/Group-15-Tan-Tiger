@@ -14,6 +14,7 @@ import AddIcon from '@material-ui/icons/Add';
 import { useState, useContext } from 'react';
 import { RoomContext } from '../context/RoomContextProvider';
 import SearchModal from './SearchModal';
+import React from 'react';
 
 const useStyles = makeStyles(() => ({
   queueTitle: {
