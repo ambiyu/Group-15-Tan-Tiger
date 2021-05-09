@@ -1,4 +1,4 @@
-# Project Title
+# OctoTube (SE-750)
 
 This project allows multiple people to watch videos together on the internet. It connects people together by allowing them to chat with people in the group while watching video.
 
