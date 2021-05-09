@@ -1,70 +1,71 @@
-# Getting Started with Create React App
+# OctoTube (SE-750)
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This project allows multiple people to watch videos together on the internet. It connects people together by allowing them to chat with people in the group while watching video.
 
-## Available Scripts
 
-In the project directory, you can run:
+### Built With
 
-### `npm start`
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+* [React](https://reactjs.org/)
+* [Jest](https://jestjs.io/)
+* [Express](https://expressjs.com/)
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
 
-### `npm test`
+## Getting Started
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. 
 
-### `npm run build`
+### Prerequisites
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+ Clone the repo
+   ```sh
+   git clone https://github.com/ambiyu/Group-15-Tan-Tiger
+   ```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### Installing
 
-### `npm run eject`
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+1. There is a hard coded API Key in the project which will be removed at some point. 
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+    Get a free API Key at [https://console.cloud.google.com/projectselector2/apis/dashboard?pli=1&supportedpurview=project](https://console.cloud.google.com/projectselector2/apis/dashboard?pli=1&supportedpurview=project)
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+    The API key can be put in.
+    ```
+    backend/events/InRoomEvents.js
+    ```
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+2. Clone the repo
+   ```sh
+   git clone https://github.com/ambiyu/Group-15-Tan-Tiger
+   ```
+3. You need to install the NPM packages.
 
-## Learn More
+    You need to intall dependencies in the front-end folder using the command below.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+    You need to intall dependencies in the back-end folder using the command below
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+    ```
+    npm install
+    ```
 
-### Code Splitting
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+### You can create a room and invite others to join the room to listen to a song together.
 
-### Analyzing the Bundle Size
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+## Running the tests
 
-### Making a Progressive Web App
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+You can run the tests by navigating into the front end or the back end directory and running the following command.
 
-### Advanced Configuration
+```
+npm test
+```
+The backend and front end tests check the functionality and User interface of the application 
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
 
-### Deployment
+## Acknowledgments
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
 
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+* Andrew Meads
+* The University of Auckland
