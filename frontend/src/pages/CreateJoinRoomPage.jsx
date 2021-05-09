@@ -3,8 +3,7 @@ import { Tabs, Tab, AppBar, CssBaseline, makeStyles, Container, Grid, Typography
 import Create from '../components/Create';
 import Join from '../components/Join';
 import React from 'react';
-import { Icon, InlineIcon } from '@iconify/react';
-import octopusDeploy from '@iconify-icons/logos/octopus-deploy'; 
+
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -30,9 +29,6 @@ export default function CreateJoinRoomPage() {
      <Grid container  justify="center">
         <Grid item align="center"  >
           <Typography marginTop="10" color="primary" align="center" variant="h2" gutterBottom>OctoTube</Typography>
-        </Grid>
-        <Grid>
-          <Icon icon={octopusDeploy} fontSize="large" />
         </Grid>
       </Grid>
       <CssBaseline id='cssBaseLine' />
