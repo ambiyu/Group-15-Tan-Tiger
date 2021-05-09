@@ -1,28 +1,6 @@
-const User = require("../data/User");
 const Video = require("../data/Video");
 const { YouTube } = require("popyt");
-const Timer = require("tiny-timer");
 const youtube = new YouTube("AIzaSyCsof__3zgqWFUYwm3s0ED3jWHP8gHs06I");
-
-// Continuously plays videos in queue. The next video in the queue will be
-// automatically played after the current one finishes.
-function playNextInQueue(io, room) {
-    const roomCode = room.roomCode;
-    io.to(String(roomCode)).emit("playNextInQueue");
-
-    room.playNextInQueue(() => {
-        // Continuously play next in queue
-        if (room.queue.length > 0) {
-            playNextInQueue(io, room);
-        } else {
-            // Reset
-            room.currentlyPlaying = {
-                video: null,
-                timestamp: null,
-            };
-        }
-    });
-}
 
 function addToQueue(io, socket, roomManager) {
     socket.on("addToQueue", async (item, roomCode) => {
@@ -40,11 +18,13 @@ function addToQueue(io, socket, roomManager) {
 
         // Start playing new video if queue was empty and a video is not playing currently
         if (room.queue.length === 1 && room.currentlyPlaying.video == null) {
-            playNextInQueue(io, room);
+            room.advanceQueue();
+            io.to(String(room.roomCode)).emit("playNextInQueue");
         }
     });
 }
 
+// Not currently used
 function removeFromQueue(io, socket, roomManager) {
     socket.on("removeFromQueue", (item, roomCode) => {
         const room = roomManager.getRoomByCode(roomCode);
@@ -57,41 +37,34 @@ function removeFromQueue(io, socket, roomManager) {
 function pauseVideo(io, socket, roomManager) {
     socket.on("pauseVideo", (pauseTime, roomCode, user) => {
         const room = roomManager.getRoomByCode(roomCode);
-        if(room === null || room.paused === undefined || room.paused === true || room.admin !== user) {
+        if (room === null || room.paused === true || room.admin !== user) {
             return;
         }
-        room.paused = true;
-        roomManager.getRoomByCode(roomCode).currentlyPlaying.timestamp.pause();
+
+        room.pauseVideo();
 
         // How do we want to handle out of sync timestamps when the host pauses?
-        console.log('downstream pause');
+        console.log("downstream pause");
         io.to(String(roomCode)).emit("pauseVideo", pauseTime, user);
     });
 }
 
-function resumeVideo(io, socket, roomManager) {
-    socket.on("resumeVideo", (resumeTime, roomCode, user) => {
+function playVideo(io, socket, roomManager) {
+    socket.on("playVideo", (playTime, roomCode, user) => {
         const room = roomManager.getRoomByCode(roomCode);
-        if(room === null || room.paused === undefined || room.paused === false || room.admin !== user) {
+        if (room === null || room.paused === false || room.admin !== user) {
             return;
         }
-        room.paused = false;
-        room.currentlyPlaying.timestamp = new Timer({ stopwatch: true });
-        const DELAY_BETWEEN_VIDEOS = 3000;
-        room.currentlyPlaying.timestamp.on("done", () => {
-            if (room.queue.length > 0) {
-                playNextInQueue(io, room);
-            } else {
-                // Reset
-                room.currentlyPlaying = {
-                    video: null,
-                    timestamp: null,
-                };
-            }
+
+        // Continuously plays videos in queue. The next video in the queue will be
+        // automatically played after the current one finishes.
+        room.playVideo(playTime, () => {
+            room.advanceQueue();
+            io.to(String(room.roomCode)).emit("playNextInQueue");
         });
-        room.currentlyPlaying.timestamp.start(room.currentlyPlaying.video.duration -(resumeTime*1000) + DELAY_BETWEEN_VIDEOS);
-        console.log('downstream resume');
-        io.to(String(roomCode)).emit("resumeVideo", resumeTime, user);
+
+        console.log("downstream resume");
+        io.to(String(roomCode)).emit("playVideo", playTime, user);
     });
 }
 
@@ -99,5 +72,5 @@ module.exports = function (io, socket, roomManager) {
     addToQueue(io, socket, roomManager);
     removeFromQueue(io, socket, roomManager);
     pauseVideo(io, socket, roomManager);
-    resumeVideo(io, socket, roomManager);
+    playVideo(io, socket, roomManager);
 };

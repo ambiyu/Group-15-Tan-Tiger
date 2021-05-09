@@ -1,3 +1,4 @@
+
 import React from 'react'
 import Enzyme, { mount } from 'enzyme'
 import Adapter from '@wojtekmaj/enzyme-adapter-react-17'
@@ -9,30 +10,24 @@ import { RoomContextProvider } from '../context/RoomContextProvider';
 import {Button, TextField} from '@material-ui/core'
 
 
-import Create from '../components/Create'
+import Create from '../components/Create';
 
 Enzyme.configure({ adapter: new Adapter() });
 
 describe('check this component', () => {
+  let wrapper;
 
-    let wrapper;
+  beforeEach(() => {
+    wrapper = mount(<Create />, {
+      wrappingComponent: RoomContextProvider,
+    });
+  });
 
-    beforeEach(() => {
+  it('should render properly', () => {
+    expect(wrapper).toContainExactlyOneMatchingElement('form');
 
-        wrapper = mount(<Create />, {
-            wrappingComponent: RoomContextProvider
-        })
+    expect(wrapper).toContainMatchingElements(2, TextField);
 
-    })
-
-    it('should render properly', () => {
-        expect(wrapper).toContainExactlyOneMatchingElement('form');
-
-        expect(wrapper).toContainMatchingElements(2, TextField);
-
-        expect(wrapper).toContainExactlyOneMatchingElement(Button)
-
-    })
-
-
-})
+    expect(wrapper).toContainExactlyOneMatchingElement(Button);
+  });
+});

@@ -42,16 +42,6 @@ function reducer(state, action) {
         users: [...state.users, action.newUser],
       };
     }
-    case 'changeSongPlaying': {
-      const { videoID } = action;
-      return {
-        ...state,
-        currentlyPlaying: {
-          ...state.currentlyPlaying,
-          videoID,
-        },
-      };
-    }
     case 'addToQueue': {
       return {
         ...state,
@@ -88,7 +78,7 @@ function reducer(state, action) {
         seekTo: action.newTime,
       };
     }
-    case 'resumeVideo': {
+    case 'playVideo': {
       console.log(action.initiator + '-' + state.username);
       if (action.initiator === state.username) {
         return {
@@ -120,10 +110,6 @@ export default function useRoomState() {
     function onNewUserJoin(newUser) {
       dispatch({ type: 'newUserJoined', newUser });
     }
-    function onSongChanged(newSong) {
-      //TODO: Retrieval of other video information
-      dispatch({ type: 'changeSongPlaying', newSong });
-    }
     function onAddToQueue(item) {
       dispatch({ type: 'addToQueue', item });
     }
@@ -134,29 +120,27 @@ export default function useRoomState() {
       // Initiator refers to the user that resumed the video
       dispatch({ type: 'pauseVideo', newTime, initiator });
     }
-    function resumeVideo(newTime, initiator) {
+    function playVideo(newTime, initiator) {
       // Initiator refers to the user that resumed the video
-      dispatch({ type: 'resumeVideo', newTime, initiator });
+      dispatch({ type: 'playVideo', newTime, initiator });
     }
     function onMessageReceived(message) {
       dispatch({ type: 'newMessage', message: message });
     }
 
     socket.on('newUserInRoom', onNewUserJoin);
-    socket.on('changeSongPlaying', onSongChanged);
     socket.on('addToQueue', onAddToQueue);
     socket.on('playNextInQueue', playNextInQueue);
     socket.on('pauseVideo', pauseVideo);
-    socket.on('resumeVideo', resumeVideo);
+    socket.on('playVideo', playVideo);
     socket.on('newMessage', onMessageReceived);
 
     return () => {
       socket.removeListener('newUserInRoom', onNewUserJoin);
-      socket.removeListener('changeSongPlaying', onSongChanged);
       socket.removeListener('addToQueue', onAddToQueue);
       socket.removeListener('playNextInQueue', playNextInQueue);
       socket.removeListener('pauseVideo', pauseVideo);
-      socket.removeListener('resumeVideo', resumeVideo);
+      socket.removeListener('playVideo', playVideo);
       socket.removeListener('newMessage', onMessageReceived);
     };
   }, []);

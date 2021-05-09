@@ -9,6 +9,11 @@ import {
   useMediaQuery,
   BottomNavigation,
   BottomNavigationAction,
+  Avatar, 
+  ListItem, 
+  ListItemAvatar, 
+  ListItemText, 
+  Box,
 } from '@material-ui/core';
 import QueueMusicIcon from '@material-ui/icons/QueueMusic';
 import ChatIcon from '@material-ui/icons/Chat';
@@ -48,14 +53,20 @@ export default function RoomPage() {
           <Queue />
         </div>
 
-        <Typography
-          style={{ height: '100%', marginBottom: 56 }}
+        <Typography style={{ height: '100%', marginBottom: 56 }}
           component="div"
-          hidden={mobileNav !== 1}
-        >
-          {state.users.map((user, key) => (
-            <li key={key}>{user.userName}</li>
-          ))}
+          hidden={mobileNav !== 1}>
+          {state.users.map((user, key) => {
+                return (
+                    <ListItem key={key} divider alignItems='flex-start'>
+                        <ListItemAvatar>
+                            <Avatar alt={user.userName} src="" />
+                        </ListItemAvatar>
+                        <ListItemText >
+                            <Typography>{user.userName}</Typography>
+                        </ListItemText>
+                    </ListItem>
+          )})}
         </Typography>
 
         <div
@@ -93,9 +104,16 @@ export default function RoomPage() {
         <Grid item className={styles.middlePanel}>
           <Paper style={{ height: '100%' }}>
             <YoutubePlayer />
-            {state.users.map((user, key) => (
-              <li key={key}>{user.userName}</li>
-            ))}
+            <Grid container spacing={1} style={{display: 'flex'}}>
+              {state.users.map((user, key) => (
+                <Grid item xs={4} key={key}>
+                  <Box style={{display: 'flex', marginTop: '15px', marginLeft: '5px'}}>
+                    <Avatar alt={user.userName} src=""/>
+                    <Typography inline style={{fontSize: "1vw", marginLeft: '10px'}}>{user.userName}</Typography>
+                  </Box>
+                </Grid>
+              ))}
+            </Grid>
           </Paper>
         </Grid>
         <Grid item className={styles.chatPanel}>

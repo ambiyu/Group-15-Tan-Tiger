@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 import { makeStyles } from '@material-ui/core';
 import YouTube from '@u-wave/react-youtube';
 import { useContext, useEffect, useRef } from 'react';
@@ -34,13 +34,13 @@ function YoutubePlayer() {
   //   // eslint-disable-next-line react-hooks/exhaustive-deps
   // }, [state.currentlyPlaying.timestamp]);
 
-  function pauseVideo(player) {
+  function handlePauseVideo(player) {
     console.log('upstream pause for room ' + state.roomCode + ' user ' + state.username);
     socket.emit('pauseVideo', player.getCurrentTime(), state.roomCode, state.username);
   }
-  function resumeVideo(player) {
+  function handlePlayVideo(player) {
     console.log('upstream resume for room ' + state.roomCode + ' user ' + state.username);
-    socket.emit('resumeVideo', player.getCurrentTime(), state.roomCode, state.username);
+    socket.emit('playVideo', player.getCurrentTime(), state.roomCode, state.username);
   }
 
   useEffect(() => {
@@ -62,8 +62,8 @@ function YoutubePlayer() {
         autoplay
         disableKeyboard={true}
         paused={state.paused}
-        onPause={(e) => pauseVideo(e.target)}
-        onPlaying={(e) => resumeVideo(e.target)}
+        onPause={(e) => handlePauseVideo(e.target)}
+        onPlaying={(e) => handlePlayVideo(e.target)}
       />
     </div>
   );
