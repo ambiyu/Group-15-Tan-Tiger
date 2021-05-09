@@ -1,4 +1,4 @@
-const YoutubeQueue = require('../YoutubeQueue');
+const YoutubeQueue = require("../YoutubeQueue");
 
 describe("backend unit tests for youtube queue", () => {
     let youtubeQueueObject;

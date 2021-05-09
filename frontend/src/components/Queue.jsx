@@ -1,3 +1,4 @@
+import React from 'react';
 import {
   List,
   ListItem,
@@ -14,7 +15,6 @@ import AddIcon from '@material-ui/icons/Add';
 import { useState, useContext } from 'react';
 import { RoomContext } from '../context/RoomContextProvider';
 import SearchModal from './SearchModal';
-import React from 'react';
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -61,6 +61,7 @@ export default function Queue() {
           </ListItem>
         ))}
       </List>
+
       <SearchModal open={searchModalOpen} setOpen={setSearchModalOpen} />
     </div>
   );

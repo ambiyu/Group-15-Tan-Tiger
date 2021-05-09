@@ -44,7 +44,6 @@ function pauseVideo(io, socket, roomManager) {
         room.pauseVideo();
 
         // How do we want to handle out of sync timestamps when the host pauses?
-        console.log("downstream pause");
         io.to(String(roomCode)).emit("pauseVideo", pauseTime, user);
     });
 }
@@ -63,7 +62,6 @@ function playVideo(io, socket, roomManager) {
             io.to(String(room.roomCode)).emit("playNextInQueue");
         });
 
-        console.log("downstream resume");
         io.to(String(roomCode)).emit("playVideo", playTime, user);
     });
 }

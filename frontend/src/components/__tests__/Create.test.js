@@ -1,16 +1,12 @@
-
-import React from 'react'
-import Enzyme, { mount } from 'enzyme'
-import Adapter from '@wojtekmaj/enzyme-adapter-react-17'
+import React from 'react';
+import Enzyme, { mount } from 'enzyme';
+import Adapter from '@wojtekmaj/enzyme-adapter-react-17';
 import '@testing-library/jest-dom/extend-expect';
-import '../setupTests';
+import '../../setupTests';
 
-
-import { RoomContextProvider } from '../context/RoomContextProvider';
-import {Button, TextField} from '@material-ui/core'
-
-
-import Create from '../components/Create';
+import { RoomContextProvider } from '../../context/RoomContextProvider';
+import { Button, TextField } from '@material-ui/core';
+import Create from '../Create';
 
 Enzyme.configure({ adapter: new Adapter() });
 

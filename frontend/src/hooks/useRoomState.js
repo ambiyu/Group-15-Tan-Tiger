@@ -7,10 +7,10 @@ const initialState = {
   roomName: '',
   users: [],
   currentlyPlaying: {
-    // videoID: 'dQw4w9WgXcQ',
-    timestamp: 0, // Changes whenever the host seeks to a new point in the song.
+    video: null,
+    timestamp: 0, // Initial timestamp. Changes whenever the host seeks to a new point in the song.
   },
-  queue: [], // change name to just queue?
+  queue: [],
   chatMessages: [],
   paused: true,
   seekTo: -1, // On non-negative value: triggers player to seek to that value and immediately resets to -1.
@@ -60,7 +60,6 @@ function reducer(state, action) {
       };
     }
     case 'pauseVideo': {
-      console.log(action.initiator + '-' + state.username);
       if (action.initiator === state.username) {
         return {
           ...state,
@@ -79,7 +78,6 @@ function reducer(state, action) {
       };
     }
     case 'playVideo': {
-      console.log(action.initiator + '-' + state.username);
       if (action.initiator === state.username) {
         return {
           ...state,
