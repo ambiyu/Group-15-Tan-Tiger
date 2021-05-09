@@ -45,7 +45,7 @@ describe('CreateJoinRoomPage renders correctly', () => {
         // expect(wrapper).toContainMatchingElements(3, Paper);
         expect(wrapper).toContainMatchingElements(1, AppBar);
         expect(wrapper).toContainMatchingElements(1, Toolbar);
-        expect(wrapper).toContainMatchingElements(1, Typography);
+        expect(wrapper).toContainMatchingElements(2, Typography);
         expect(wrapper).toContainMatchingElements(1, IconButton);
         expect(wrapper).toContainMatchingElements(1, Playlist);
         expect(wrapper).toContainMatchingElements(1, SearchModal);
