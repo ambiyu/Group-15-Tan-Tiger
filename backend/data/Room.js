@@ -20,6 +20,7 @@ class Room {
 
     advanceQueue() {
         this.currentlyPlaying.video = this.queue.shift();
+        return this.currentlyPlaying.video;
     }
 
     playVideo(playTime, doneCallback) {
