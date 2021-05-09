@@ -21,7 +21,6 @@ describe('check this component', () => {
     let wrapper;
 
     beforeEach(() => {
-        // wrapper = shallow(<RoomContextProvider><Create /></RoomContextProvider>)
 
         wrapper = mount(<Join />, {
             wrappingComponent: RoomContextProvider
