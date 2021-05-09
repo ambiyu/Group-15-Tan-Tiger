@@ -28,7 +28,7 @@ describe('CreateJoinRoomPage renders correctly', () => {
 
     beforeEach(() => {
         
-       
+        window.HTMLElement.prototype.scrollIntoView = jest.fn()
         wrapper = mount(<RP />, {
             wrappingComponent: RoomContextProvider
         })
@@ -38,7 +38,7 @@ describe('CreateJoinRoomPage renders correctly', () => {
 
     it('checks if the component is rendered correctly ', () => {
 
-        window.HTMLElement.prototype.scrollIntoView = jest.fn()
+        
 
         expect(wrapper).toContainMatchingElements(4, Grid);
         //check this test expected 3 but returns four
