@@ -5,7 +5,7 @@ import Join from '../components/Join';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
-    marginTop: theme.spacing(24),
+    marginTop: theme.spacing(10),
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',

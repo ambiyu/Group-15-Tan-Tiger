@@ -1,11 +1,14 @@
 import { Switch, Route, Redirect } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
-import { AppBar, Toolbar, IconButton, Typography } from '@material-ui/core';
+import { AppBar, Toolbar, IconButton, Typography, Grid } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
 import RoomPage from './pages/RoomPage';
 import CreateJoinRoomPage from './pages/CreateJoinRoomPage';
 import { RoomContext } from './context/RoomContextProvider';
 import { useContext } from 'react';
+import { Icon, InlineIcon } from '@iconify/react';
+import octopusDeploy from '@iconify-icons/logos/octopus-deploy';
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -44,6 +47,15 @@ export default function App() {
           </Typography>
         </Toolbar>
       </AppBar>
+
+      <Grid container  justify="center">
+        <Grid item align="center"  >
+          <Typography marginTop="10" color="primary" align="center" variant="h2" gutterBottom>OctoTube</Typography>
+        </Grid>
+        <Grid>
+          <Icon icon={octopusDeploy} fontSize="large" />
+        </Grid>
+      </Grid>
 
       <main className={classes.main}>
         <Switch>
