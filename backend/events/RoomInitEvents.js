@@ -14,9 +14,6 @@ function handleCreateRoom(io, socket, roomManager) {
         socket.join(String(roomCode));
 
         callback({ user, roomCode });
-
-        // Either a callback or an emitter event can be used to return the room code
-        // io.to(String(roomCode)).emit('enterRoom', roomCode);
     });
 }
 

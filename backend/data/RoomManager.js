@@ -45,7 +45,6 @@ class RoomManager {
     clearAllData() {
         this.roomDict = {};
     }
-
 }
 
 module.exports = RoomManager;
