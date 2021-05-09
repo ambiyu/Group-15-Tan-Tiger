@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 import { makeStyles } from '@material-ui/core';
 import YouTube from '@u-wave/react-youtube';
 import { useContext, useEffect, useRef } from 'react';
@@ -50,7 +50,7 @@ function YoutubePlayer() {
       player.playerInstance.seekTo(state.seekTo);
       state.seekTo = -1;
     }
-  }, [state.seekTo]);
+  }, [state]);
 
   return (
     <div className={classes.container}>
