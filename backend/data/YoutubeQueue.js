@@ -12,7 +12,7 @@ class YoutubeQueue {
     }
 
     removeFromQueue(videoURL) {
-        index = this.queue.find((e) => e === videoURL);
+        let index = this.queue.find((e) => e === videoURL);
         if (index !== undefined && index > 0) { // Do not want to delete currently playing video.
             this.queue.splice(index, 1);
         }
@@ -28,7 +28,7 @@ class YoutubeQueue {
         } else if (index === 1) {
             return this.advanceQueue();
         }
-        usingHistory = index < 0;
+        let usingHistory = index < 0;
         this.history.unshift(this.queue[0]);
         if (usingHistory) {
             index = -index; // Not subtracting one as the array has been shifted.
@@ -48,7 +48,7 @@ class YoutubeQueue {
     }
 
     advanceQueue() { // Advances the queue and returns the URL of the video to be played.
-        oldVideo = this.queue.shift();
+        let oldVideo = this.queue.shift();
         if (oldVideo === undefined) {  // Returns undefined if the queue is empty.
             return undefined;
         }
@@ -67,7 +67,7 @@ class YoutubeQueue {
     }
 
     async getVideoObjectByIndex(index) { // Gets video information of a specific entry in the queue. Negative values check history.
-        list = index >= 0 ? this.queue : this.history;
+        let list = index >= 0 ? this.queue : this.history;
         index = index >= 0 ? index : -index - 1; // Negative values need to be made positive and zero-based to properly interact with history array.
         if (list.length >= index) {
             return undefined;

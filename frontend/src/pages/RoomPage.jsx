@@ -1,4 +1,5 @@
 import { useContext, useState } from 'react';
+import React from 'react';
 import { RoomContext } from '../context/RoomContextProvider';
 import {
   Grid,
@@ -83,7 +84,7 @@ export default function RoomPage() {
 
   return (
     <>
-      <Grid container justify="center" spacing={0} className={styles.roomPage}>
+      <Grid id='grid' container justify="center" spacing={0} className={styles.roomPage}>
         <Grid item className={styles.playlistPanel}>
           <Paper style={{ height: '100%' }}>
             <Queue />
