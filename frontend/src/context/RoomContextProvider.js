@@ -1,5 +1,6 @@
 import { createContext } from 'react';
 import useRoomState from '../hooks/useRoomState';
+import React from 'react';
 
 const RoomContext = createContext();
 

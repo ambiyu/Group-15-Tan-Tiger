@@ -1,4 +1,4 @@
-import { React, useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { useContext } from 'react';
 import { RoomContext } from '../context/RoomContextProvider';
 import {
@@ -17,6 +17,7 @@ import {
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import socket from '../Socket';
+import React from 'react';
 
 const useStyles = makeStyles({
   root: {
