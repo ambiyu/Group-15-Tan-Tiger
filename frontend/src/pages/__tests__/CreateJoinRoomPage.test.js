@@ -2,9 +2,9 @@ import React from 'react';
 import Enzyme, { shallow } from 'enzyme';
 import Adapter from '@wojtekmaj/enzyme-adapter-react-17';
 import '@testing-library/jest-dom/extend-expect';
-import '../setupTests';
+import '../../setupTests';
 
-import CJRP from '../pages/CreateJoinRoomPage';
+import CJRP from '../CreateJoinRoomPage';
 
 Enzyme.configure({ adapter: new Adapter() });
 

@@ -1,27 +1,22 @@
 import React from 'react';
-import Enzyme, { mount } from 'enzyme';
-import Adapter from '@wojtekmaj/enzyme-adapter-react-17';
+import { mount } from 'enzyme';
 import '@testing-library/jest-dom/extend-expect';
-import '../setupTests';
+import '../../setupTests';
 
-import { RoomContextProvider } from '../context/RoomContextProvider';
 import { Button, TextField } from '@material-ui/core';
-import Create from '../components/Create';
-
-Enzyme.configure({ adapter: new Adapter() });
+import { RoomContextProvider } from '../../context/RoomContextProvider';
+import Join from '../Join';
 
 describe('check this component', () => {
   let wrapper;
 
   beforeEach(() => {
-    wrapper = mount(<Create />, {
+    wrapper = mount(<Join />, {
       wrappingComponent: RoomContextProvider,
     });
   });
 
   it('should render properly', () => {
-    expect(wrapper).toContainExactlyOneMatchingElement('form');
-
     expect(wrapper).toContainMatchingElements(2, TextField);
 
     expect(wrapper).toContainExactlyOneMatchingElement(Button);

@@ -2,14 +2,14 @@ import React from 'react';
 import Enzyme, { mount } from 'enzyme';
 import Adapter from '@wojtekmaj/enzyme-adapter-react-17';
 import '@testing-library/jest-dom/extend-expect';
-import '../setupTests';
+import '../../setupTests';
 
-import RP from '../pages/RoomPage';
-import { RoomContextProvider } from '../context/RoomContextProvider';
+import RP from '../RoomPage';
+import { RoomContextProvider } from '../../context/RoomContextProvider';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { Grid, IconButton, Paper, Toolbar, Typography } from '@material-ui/core';
-import SearchModal from '../components/SearchModal';
-import chatBox from '../components/Chatbox';
+import SearchModal from '../../components/SearchModal';
+import chatBox from '../../components/Chatbox';
 
 Enzyme.configure({ adapter: new Adapter() });
 

@@ -2,12 +2,12 @@ import React from 'react';
 import Enzyme, { mount } from 'enzyme';
 import Adapter from '@wojtekmaj/enzyme-adapter-react-17';
 import '@testing-library/jest-dom/extend-expect';
-import '../setupTests';
+import '../../setupTests';
 
 import { Dialog, DialogTitle, DialogContent, IconButton, InputBase, List } from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/Search';
-import SearchModal from '../components/SearchModal';
-import { RoomContextProvider } from '../context/RoomContextProvider';
+import SearchModal from '../SearchModal';
+import { RoomContextProvider } from '../../context/RoomContextProvider';
 
 Enzyme.configure({ adapter: new Adapter() });
 
