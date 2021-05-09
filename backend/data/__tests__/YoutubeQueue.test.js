@@ -18,12 +18,4 @@ describe("backend unit tests for youtube queue", () => {
         expect(youtubeQueueObject.history[0]).toBe("12345678901");
         expect(youtubeQueueObject.queue[0]).toBe("22222222222");
     });
-    xtest("check jumping in queue works", () => { // Test is broke but won't fix (tested functionality is not used)
-        youtubeQueueObject.addToQueue("11111111111");
-        youtubeQueueObject.addToQueue("22222222222");
-        youtubeQueueObject.addToQueue("33333333333");
-        youtubeQueueObject.addToQueue("44444444444");
-        youtubeQueueObject.jumpQueue(2);
-        expect(youtubeQueueObject.queue[0]).toBe("33333333333");
-    });
 });
