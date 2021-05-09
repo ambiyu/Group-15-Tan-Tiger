@@ -1,17 +1,17 @@
-name: Frontend CI
+name: Backend CI
 
 on:
   pull_request:
     paths:
-      - frontend/**
+      - backend/**
 
 defaults:
   run:
-    working-directory: frontend
+    working-directory: backend
 
 jobs:
   frontend-ci:
-    name: Run Frontend Tests
+    name: Run Backend Tests
     runs-on: ubuntu-latest
 
     steps:

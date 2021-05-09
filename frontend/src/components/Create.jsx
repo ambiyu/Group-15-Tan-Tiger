@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
 export default function Create() {
   const classes = useStyles();
   const history = useHistory();
-  const { dispatch } = useContext(RoomContext);
+  const { state, dispatch } = useContext(RoomContext);
 
   function handleCreate() {
     const nickname = document.getElementById('username').value;
@@ -26,6 +26,8 @@ export default function Create() {
 
     socket.emit('createRoom', nickname, roomName, ({ user, roomCode }) => {
       dispatch({ type: 'createRoom', user, roomCode, roomName });
+      console.log(state.username);
+      console.log(state.roomCode);
       history.push(`/room/${roomCode}`);
     });
   }

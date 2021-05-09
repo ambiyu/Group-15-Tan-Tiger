@@ -1,23 +1,22 @@
 import { useContext, useState } from 'react';
 import React from 'react';
+import { RoomContext } from '../context/RoomContextProvider';
 import {
-  AppBar,
   Grid,
-  IconButton,
   Paper,
-  Toolbar,
   Typography,
   makeStyles,
+  useMediaQuery,
+  BottomNavigation,
+  BottomNavigationAction,
 } from '@material-ui/core';
-import AddIcon from '@material-ui/icons/Add';
+import QueueMusicIcon from '@material-ui/icons/QueueMusic';
+import ChatIcon from '@material-ui/icons/Chat';
+import PeopleIcon from '@material-ui/icons/People';
 import styles from './RoomPage.module.css';
-import Playlist from '../components/Playlist';
-import { RoomContext } from '../context/RoomContextProvider';
+import Queue from '../components/Queue';
 import Chatbox from '../components/Chatbox';
-
-
 import YoutubePlayer from '../components/YoutubePlayer';
-import SearchModal from '../components/SearchModal';
 
 const useStyles = makeStyles(() => ({
   queueRoot: {
@@ -28,31 +27,59 @@ const useStyles = makeStyles(() => ({
   queueTitle: {
     flexGrow: 1,
   },
+  mobileNav: {
+    position: 'fixed',
+    bottom: 0,
+    width: '100%',
+  },
 }));
 
 export default function RoomPage() {
   const classes = useStyles();
+  const isMobile = useMediaQuery('(max-width:600px)');
   const { state } = useContext(RoomContext);
 
-  const [searchModalOpen, setSearchModalOpen] = useState(false);
+  const [mobileNav, setMobileNav] = useState(0);
+
+  if (isMobile) {
+    return (
+      <>
+        <YoutubePlayer />
+
+        <Typography component="div" hidden={mobileNav !== 0}>
+          <Queue />
+        </Typography>
+
+        <Typography component="div" hidden={mobileNav !== 1}>
+          {state.users.map((user, key) => (
+            <li key={key}>{user.userName}</li>
+          ))}
+        </Typography>
+
+        <Typography component="div" hidden={mobileNav !== 2}>
+          <Chatbox />
+        </Typography>
+
+        <BottomNavigation
+          className={classes.mobileNav}
+          showLabels
+          value={mobileNav}
+          onChange={(e, newValue) => setMobileNav(newValue)}
+        >
+          <BottomNavigationAction label="Queue" icon={<QueueMusicIcon />} />
+          <BottomNavigationAction label="Users" icon={<PeopleIcon />} />
+          <BottomNavigationAction label="Chat" icon={<ChatIcon />} />
+        </BottomNavigation>
+      </>
+    );
+  }
 
   return (
     <>
       <Grid id='grid' container justify="center" spacing={0} className={styles.roomPage}>
         <Grid item className={styles.playlistPanel}>
-          <Paper id='paper' className={classes.playlistRoot} style={{ height: '100%' }}>
-            <AppBar id='appBar' color="transparent" position="static">
-              <Toolbar id='ToolBar'>
-                <Typography id='TypoGraphy' className={classes.queueTitle} variant="h6">
-                  Queue
-                </Typography>
-                <IconButton id='iconButton' onClick={() => setSearchModalOpen(true)}>
-                  <AddIcon id='addIcon' />
-                </IconButton>
-              </Toolbar>
-            </AppBar>
-
-            <Playlist id='playlist' playlist={state.queue} />
+          <Paper style={{ height: '100%' }}>
+            <Queue />
           </Paper>
         </Grid>
         <Grid item className={styles.middlePanel}>
@@ -64,11 +91,9 @@ export default function RoomPage() {
           </Paper>
         </Grid>
         <Grid item className={styles.chatPanel}>
-          <Chatbox/>
+          <Chatbox />
         </Grid>
       </Grid>
-
-      <SearchModal open={searchModalOpen} setOpen={setSearchModalOpen} />
     </>
   );
 }

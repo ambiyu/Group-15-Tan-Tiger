@@ -12,6 +12,8 @@ const initialState = {
   },
   queue: [], // change name to just queue?
   chatMessages: [],
+  paused: true,
+  seekTo: -1, // On non-negative value: triggers player to seek to that value and immediately resets to -1.
 };
 
 function reducer(state, action) {
@@ -61,15 +63,50 @@ function reducer(state, action) {
       return {
         ...state,
         queue: state.queue.slice(1),
-        currentlyPlaying: firstVideo,
+        currentlyPlaying: {
+          video: firstVideo,
+          timestamp: 0,
+        },
+      };
+    }
+    case 'pauseVideo': {
+      console.log(action.initiator + '-' + state.username);
+      if (action.initiator === state.username) {
+        return {
+          ...state,
+        };
+      }
+      if (action.newTime === undefined) {
+        return {
+          ...state,
+          paused: true,
+        };
+      }
+      return {
+        ...state,
+        paused: true,
+        seekTo: action.newTime,
+      };
+    }
+    case 'resumeVideo': {
+      console.log(action.initiator + '-' + state.username);
+      if (action.initiator === state.username) {
+        return {
+          ...state,
+        };
+      }
+      return {
+        ...state,
+        paused: false,
+        seekTo: action.newTime,
       };
     }
     case 'newMessage': {
       const { message } = action;
       return {
-        ...state, 
+        ...state,
         chatMessages: [...state.chatMessages, message],
-      }
+      };
     }
     default:
       throw new Error(`Invalid action type: ${action.type}`);
@@ -93,22 +130,34 @@ export default function useRoomState() {
     function playNextInQueue() {
       dispatch({ type: 'playNextInQueue' });
     }
-    function onMessageReceived(message){
-      dispatch({type: 'newMessage', message: message});
+    function pauseVideo(newTime, initiator) {
+      // Initiator refers to the user that resumed the video
+      dispatch({ type: 'pauseVideo', newTime, initiator });
+    }
+    function resumeVideo(newTime, initiator) {
+      // Initiator refers to the user that resumed the video
+      dispatch({ type: 'resumeVideo', newTime, initiator });
+    }
+    function onMessageReceived(message) {
+      dispatch({ type: 'newMessage', message: message });
     }
 
     socket.on('newUserInRoom', onNewUserJoin);
     socket.on('changeSongPlaying', onSongChanged);
-    socket.on('newMessage', onMessageReceived);
     socket.on('addToQueue', onAddToQueue);
     socket.on('playNextInQueue', playNextInQueue);
+    socket.on('pauseVideo', pauseVideo);
+    socket.on('resumeVideo', resumeVideo);
+    socket.on('newMessage', onMessageReceived);
 
     return () => {
       socket.removeListener('newUserInRoom', onNewUserJoin);
       socket.removeListener('changeSongPlaying', onSongChanged);
-      socket.removeListener('newMessage', onMessageReceived);
       socket.removeListener('addToQueue', onAddToQueue);
       socket.removeListener('playNextInQueue', playNextInQueue);
+      socket.removeListener('pauseVideo', pauseVideo);
+      socket.removeListener('resumeVideo', resumeVideo);
+      socket.removeListener('newMessage', onMessageReceived);
     };
   }, []);
 

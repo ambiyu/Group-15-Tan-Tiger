@@ -39,7 +39,7 @@ const useStyles = makeStyles(() => ({
 export default function SearchModal({ open, setOpen }) {
   const classes = useStyles();
   const [searchResults, setSearchResults] = useState([]);
-  const { state, dispatch } = useContext(RoomContext);
+  const { state } = useContext(RoomContext);
 
   async function handleSearch() {
     const query = document.getElementById('search-input').value;
