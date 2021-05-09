@@ -26,17 +26,20 @@ function handleJoinRoom(io, socket, roomManager) {
         roomManager.addUserToRoom(user, roomCode);
         const room = roomManager.getRoomByCode(roomCode);
 
-        const roomData = {
-            ...room,
-            currentlyPlaying: {
-                video: room.currentlyPlaying.video,
-                timestamp: room.currentlyPlaying.timestamp
-                    ? room.currentlyPlaying.timestamp.time / 1000
-                    : 0,
-            },
-        };
-
-        callback(roomData);
+        if (!room) {
+            callback(null);
+        } else {
+            const roomData = {
+                ...room,
+                currentlyPlaying: {
+                    video: room.currentlyPlaying.video,
+                    timestamp: room.currentlyPlaying.timestamp
+                        ? room.currentlyPlaying.timestamp.time / 1000
+                        : 0,
+                },
+            };
+            callback(roomData);
+        }
 
         // Send message to all in room that new user has joined - more data might be required, but
         // user name should be sufficient for now.
