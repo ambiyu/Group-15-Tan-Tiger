@@ -8,7 +8,11 @@ import {
   useMediaQuery,
   BottomNavigation,
   BottomNavigationAction,
-  Avatar, ListItem, ListItemAvatar, ListItemText, Box
+  Avatar, 
+  ListItem, 
+  ListItemAvatar, 
+  ListItemText, 
+  Box,
 } from '@material-ui/core';
 import QueueMusicIcon from '@material-ui/icons/QueueMusic';
 import ChatIcon from '@material-ui/icons/Chat';
