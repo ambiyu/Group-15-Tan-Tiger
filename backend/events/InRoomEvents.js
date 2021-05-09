@@ -67,7 +67,7 @@ function playVideo(io, socket, roomManager) {
 function playNextInQueue(room, io) {
     room.advanceQueue();
 
-    if (room.queue.length > 0) {
+    if (room.queue.length >= 0) {
         io.to(String(room.roomCode)).emit("playNextInQueue");
 
         room.playVideo(0, () => {
