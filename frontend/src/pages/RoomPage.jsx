@@ -1,4 +1,5 @@
 import { useContext, useState } from 'react';
+import { useHistory } from 'react-router';
 import React from 'react';
 import { RoomContext } from '../context/RoomContextProvider';
 import {
@@ -33,12 +34,20 @@ const useStyles = makeStyles(() => ({
 
 export default function RoomPage() {
   const classes = useStyles();
+  const history = useHistory();
   const isMobile = useMediaQuery('(max-width:600px)');
   const { state } = useContext(RoomContext);
 
   const [mobileNav, setMobileNav] = useState(0);
 
+  function checkIfNullState() {
+    if (state.roomCode === ""){
+      history.push(`/`)
+    }
+  }
+
   if (isMobile) {
+    checkIfNullState();
     return (
       <>
         <YoutubePlayer />
@@ -95,6 +104,7 @@ export default function RoomPage() {
 
   return (
     <>
+    {checkIfNullState()}
       <Grid id='grid' container justify="center" spacing={0} className={styles.roomPage}>
         <Grid item className={styles.playlistPanel}>
           <Paper style={{ height: '100%' }}>
